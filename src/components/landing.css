@@ -1,0 +1,25 @@
+.glass-modal .ant-modal-content {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.margininput{
+    margin-bottom: 20px;
+}
+
+.bgColor{
+  /* background-color: #dbfad8; */
+  background-color: #9c98f6;
+  /* alternative color #d9ede4 */
+}
+
+.forgotBox{
+  color:var(--login-btn-color)
+}
+
+.signInbg{
+  background-color: var(--login-btn-color);
+}
