@@ -1,5 +1,7 @@
 import React,{useState} from "react";
-import { Modal, Input, Button} from "antd";  
+import { Modal, Input, Button} from "antd"; 
+import { Link } from "react-router"; 
+import LoginGoogle from "./LoginGoogle";
 
 const LoginModal = () => {
  const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,16 +28,26 @@ const LoginModal = () => {
     
         setIsModalOpen(false)
       }
+    const handleAccount = () =>{
+   setIsModalOpen(false)
+    }
   return (
-    <>
-      <Modal
+    <div className="flex  justify-center items-center">
+       <Link to='/'>   <button
+        // onClick={() => setIsOpen(true)}
+        onClick={showModal}
+        className="btnPrimary text-white px-4 py-2  cursor-pointer hover:bg-blue-600"
+      >
+      Log In
+      </button>
+      </Link>
+     { <Modal
         open={isModalOpen}
         onCancel={handleCancel}
         footer={null}
-        centered
-        className="glass-modal"
+        className="glass-modal "
       >
-        <div className="p-6 flex flex-col items-center">
+        <div className="p-6 flex flex-col items-center mt-14">
           <h2 className="text-2xl font-bold text-white mb-4">Log In</h2>
 
           <label className="flex min-w-full pb-1 ml-1">Email</label>
@@ -64,11 +76,19 @@ const LoginModal = () => {
             className="w-full cursor-pointer signInbg  hover:bg-blue-700 mt-2"
             onClick={onLoginBtnClick}
           >
-            Sign In
+            Log In
           </Button>
+          <Link to="/signup"><div className=" p-2 cursor-pointer" onClick={handleAccount} >
+            Don't have an account?
+          </div>
+          </Link>
+          <div>
+            <LoginGoogle/>
+          </div>
         </div>
-      </Modal>
-    </>
+
+      </Modal>}
+    </div>
   );
 };
 

@@ -4,8 +4,8 @@
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
+  
 }
-
 .margininput{
     margin-bottom: 20px;
 }
@@ -15,7 +15,9 @@
   background-color: #9c98f6;
   /* alternative color #d9ede4 */
 }
-
+.usernameBtn{
+  max-width: 100px;
+}
 .forgotBox{
   color:var(--login-btn-color)
 }

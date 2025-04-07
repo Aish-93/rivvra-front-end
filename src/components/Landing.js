@@ -6,6 +6,8 @@ import  Form  from "./FormComponent";
 import FormComponent from "./FormComponent";
 import Navbar from "./Navbar";
 import PricingPage from "./Pricing";
+import ProductCards from "./ProductCards";
+
 
 
 const LandingPage = () => {
@@ -84,6 +86,9 @@ const handleCancel = () => {
           
           
         </button>
+      </section>
+      <section>
+       <ProductCards/>
       </section>
     </div>
     <PricingPage/>

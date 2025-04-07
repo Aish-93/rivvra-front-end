@@ -1,0 +1,15 @@
+.boxyourgoal{
+
+    font-weight: 400;
+    border: 1px solid #e4e6e9;
+    width: 700px;
+    padding: 5px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    cursor: pointer;
+    
+    /* background-color: aqua; */
+}
+

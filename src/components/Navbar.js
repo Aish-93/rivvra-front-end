@@ -12,7 +12,9 @@ const Navbar = () => {
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("")
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalUser, setIsModalUser] = useState(false);
+  const [isModalOpen,setIsModalOpen] = useState(false)
+  const [userName,setUsername] = useState("Aishwary")
 
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
@@ -45,46 +47,81 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6">
-            <Link to="/"><a href="#" className="text-gray-700 hover:text-blue-600">Features</a></Link>
-            <Link to="/price"  ><a href="#" className="text-gray-700 hover:text-blue-600">Pricing</a></Link>
-            <a href="#" className="text-gray-700 hover:text-blue-600">Resources</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">Contact</a>
+            <Link to="/">
+              <a href="#" className="text-gray-700 hover:text-blue-600">
+                Features
+              </a>
+            </Link>
+            <Link to="/price">
+              <a href="#" className="text-gray-700 hover:text-blue-600">
+                Pricing
+              </a>
+            </Link>
+            <a href="#" className="text-gray-700 hover:text-blue-600">
+              Resources
+            </a>
+            <a href="#" className="text-gray-700 hover:text-blue-600">
+              Contact
+            </a>
           </div>
 
           {/* Right-side Buttons */}
           <div className="hidden md:flex space-x-4 bg-gray-200 pl-5 rounded-3xl hover:z-50 cursor-pointer">
-            <button className="text-gray-700  cursor-pointer hover:text-blue-600 "
-            onClick={showModal}
-            >
-            Try for free
-            </button>
-            <LoginModal showModal={showModal}/>
-            {/* <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+            {isModalUser === false ? (
+              <>
+                <button
+                  className="text-gray-700  cursor-pointer hover:text-blue-600 "
+                  onClick={showModal}
+                >
+                  Try for free
+                </button>
+
+                {/* <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
               Sign Up
               
             </button> */}
-            <SignUp/>
+                {/* <SignUp/> */}
+                <LoginModal showModal={showModal} />
+              </>
+            ) : (
+              
+              <><div className="text-gray-700 usernameBtn mt-auto mb-auto cursor-pointer hover:text-blue-600 overflow-hidden text-ellipsis ">{`Hi ${userName}`}</div>
+              <button className="btnPrimary text-white px-4 py-2  cursor-pointer hover:bg-blue-600">Log Out</button>
+              </>
+            )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <button className="md:hidden text-gray-700 focus:outline-none" onClick={() => setIsOpen(!isOpen)}>
+          {/* Mobile Menu Button will work later*/}
+          <button
+            className="md:hidden text-gray-700 focus:outline-none"
+            onClick={() => setIsOpen(!isOpen)}
+          >
             ☰
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu will work later */}
       {isOpen && (
         <div className="md:hidden bg-white border-t p-4 space-y-2">
-          <a href="#" className="block text-gray-700 hover:text-blue-600">Features</a>
-          <a href="#" className="block text-gray-700 hover:text-blue-600">Pricing</a>
-          <a href="#" className="block text-gray-700 hover:text-blue-600">Resources</a>
-          <a href="#" className="block text-gray-700 hover:text-blue-600">Contact</a>
-          <button className="block w-full text-left text-gray-700 hover:text-blue-600">Login</button>
+          <a href="#" className="block text-gray-700 hover:text-blue-600">
+            Features
+          </a>
+          <a href="#" className="block text-gray-700 hover:text-blue-600">
+            Pricing
+          </a>
+          <a href="#" className="block text-gray-700 hover:text-blue-600">
+            Resources
+          </a>
+          <a href="#" className="block text-gray-700 hover:text-blue-600">
+            Contact
+          </a>
+          <button className="block w-full text-left text-gray-700 hover:text-blue-600">
+            Login
+          </button>
           <button className="block w-full text-left cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg mt-2 hover:bg-blue-700">
             Sign Up
           </button>
-          
         </div>
       )}
     </nav>

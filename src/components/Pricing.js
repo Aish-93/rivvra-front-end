@@ -1,6 +1,7 @@
 import React from "react";
 import { formApiservice } from "../utils/methods/auth"
 import "../App.css"
+import Faq from "./Faq";
 
 const PricingPage = () => {
   return (
