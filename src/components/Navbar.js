@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Modal, Input, Button} from "antd";  
 import "./landing.css"  
 import SignUp from "./SignUpMod";
 import { loginCall } from "../utils/methods/auth";
 import LoginModal from "./LoginModal";
+import { getItemUserAuth,logoutUser } from "../utils/methods/methods";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,12 +15,23 @@ const Navbar = () => {
 
   const [isModalUser, setIsModalUser] = useState(false);
   const [isModalOpen,setIsModalOpen] = useState(false)
-  const [userName,setUsername] = useState("Aishwary")
+  const [name,setName] = useState("")
 
+  useEffect(()=>{
+
+  const {username }=  getItemUserAuth();
+  
+  setName(username);
+  username ? setIsModalUser(true) :setIsModalUser(false)
+  },[])
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
  
 
+  const logoutCase = () =>{
+    setIsModalUser(false);
+    logoutUser();
+  }
   const onLoginBtnClick = async (e) =>{
     e.preventDefault();
    loginCall({
@@ -85,9 +97,11 @@ const Navbar = () => {
               </>
             ) : (
               
-              <><div className="text-gray-700 usernameBtn mt-auto mb-auto cursor-pointer hover:text-blue-600 overflow-hidden text-ellipsis ">{`Hi ${userName}`}</div>
-              <button className="btnPrimary text-white px-4 py-2  cursor-pointer hover:bg-blue-600">Log Out</button>
-              </>
+              <div className="flex items-center "><div className="text-gray-700 usernameBtn mt-auto mb-auto cursor-pointer
+               hover:text-blue-600 overflow-hidden text-ellipsis whitespace-nowrap ">{`Hi ${name}`}</div>
+              <button className="btnPrimary text-white px-4 py-2  cursor-pointer hover:bg-blue-600"
+              onClick={logoutCase}>Log Out</button>
+              </div>
             )}
           </div>
 

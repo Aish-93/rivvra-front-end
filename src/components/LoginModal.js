@@ -1,7 +1,11 @@
 import React,{useState} from "react";
+import axios from "axios";
 import { Modal, Input, Button} from "antd"; 
 import { Link } from "react-router"; 
 import LoginGoogle from "./LoginGoogle";
+
+import { loginCall } from "../utils/methods/auth";
+import { setItem,getItemUserAuth } from "../utils/methods/methods";
 
 const LoginModal = () => {
  const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,21 +17,54 @@ const LoginModal = () => {
 
     const onLoginBtnClick = async (e) =>{
         e.preventDefault();
-       loginCall({
+
+        console.log(email,password,"test");
+
+    const response =   loginCall({
           emailId:email,
           password:password
-        }).then((res)=>{ 
-        if(res){
+        });
+
+
+        response.then((res) =>  {
+          // console.log(res);
           
-          
+        if(res.message === "success"){
+          setItem({
+            res,
+            password
+          })
+          setIsModalOpen(false);
+          if (res.redirectUrl) {
+            window.location.href = data.redirectUrl;
+          }
+
         }
       }
+
+      
         )
-        .catch((err)=>
-        console.warn(err.message))
-    
-        setIsModalOpen(false)
+
+    //     try{
+    //        const response = await axios.post(`${API_URL}login`,{
+    //         emailId:email,
+    //         password:password
+    //        });
+
+    //       console.log(response,"response");
+
+    //       if(response.status === 200){
+
+    //       }
+    //     }catch(err){
+    //       console.warn(err.message)
+    // // antd noti
+    //       setIsModalOpen(false)
+    //     }
+
+    console.log(getItemUserAuth());
       }
+      
     const handleAccount = () =>{
    setIsModalOpen(false)
     }
@@ -48,11 +85,11 @@ const LoginModal = () => {
         className="glass-modal "
       >
         <div className="p-6 flex flex-col items-center mt-14">
-          <h2 className="text-2xl font-bold text-white mb-4">Log In</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">Log In</h2>
 
           <label className="flex min-w-full pb-1 ml-1">Email</label>
           <Input
-            className=" p-3 rounded-lg bg-transparent margininput border border-white text-white"
+            className=" p-3 rounded-lg bg-transparent margininput border border-white text-black"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -60,7 +97,7 @@ const LoginModal = () => {
           />
           <label className="flex min-w-full pb-1 ml-1 ">Password</label>
           <Input.Password
-            className="mb-3 p-3 rounded-lg bg-transparent border border-white text-white"
+            className="mb-3 p-3 rounded-lg bg-transparent border border-white text-black"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

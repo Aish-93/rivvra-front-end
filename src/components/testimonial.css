@@ -4,5 +4,9 @@
 }
 
 .mainCardHolder{
-    background-color: #e7f0f2;
+  
+  background-color: var(--major-greyback-main);
+    min-width: 80vw;
+    border-radius: 30px;
+    margin: 20px;
 }
