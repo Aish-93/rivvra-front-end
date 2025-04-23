@@ -6,8 +6,8 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white p-8">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Column 1: Company Info */}
-        <div>
-          <h3 className="font-bold text-lg mb-4">Company</h3>
+        <div className='ml-5'>
+          <h3 className="font-bold text-lg mb-4 ">Company</h3>
           <ul>
             <li className="mb-2"><a href="/" className="hover:text-gray-400">About Us</a></li>
             <li className="mb-2"><a href="/" className="hover:text-gray-400">Careers</a></li>

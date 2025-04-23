@@ -8,7 +8,16 @@ import {
   RiseOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Form, Input, Button, Steps, Select, Checkbox, message, InputNumber } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Steps,
+  Select,
+  Checkbox,
+  message,
+  InputNumber,
+} from "antd";
 
 import axios from "axios";
 import "./Stepper.css";
@@ -18,7 +27,7 @@ const { Step } = Steps;
 const { Option } = Select;
 
 const Stepper = () => {
-  const [current, setCurrent] = useState(3);
+  const [current, setCurrent] = useState(1);
   const [form] = Form.useForm();
 
   const [email, setEmail] = useState(null);
@@ -28,10 +37,10 @@ const Stepper = () => {
   const [message, setMessage] = useState("");
 
   const [formData, setFormData] = useState({
-    emailId:"",
+    emailId: "",
     name: "",
     password: "",
-    country:[],// will be array as using list to select and from api fetch
+    country: [], // will be array as using list to select and from api fetch
     role: "",
     crmCheck: "",
     companyName: "",
@@ -39,10 +48,10 @@ const Stepper = () => {
     numberOfPeople: 0,
     phone: "",
     goals: [],
-    language:""
+    language: "",
   });
 
-  const [selectedCountry,setSelectedCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
   useEffect(() => {
     // Simulate API call to fetch existing user data
@@ -57,26 +66,26 @@ const Stepper = () => {
     fetchData();
   }, [form]);
 
-  useEffect (()=>{
-
-    axios.get("https://restcountries.com/v3.1/all")
-    .then((res) =>{
-      const countriesOption = res.data.map((item) =>({
-        label:item.name.common,
-        value:item.cca2
-      })).sort((a,b) => a.label.localeCompare(b.label));
-console.log(countriesOption)
-      setFormData((prev)=>({
-
-        ...prev,
-        'country':countriesOption
+  useEffect(() => {
+    axios
+      .get("https://restcountries.com/v3.1/all")
+      .then((res) => {
+        const countriesOption = res.data
+          .map((item) => ({
+            label: item.name.common,
+            value: item.cca2,
+          }))
+          .sort((a, b) => a.label.localeCompare(b.label));
+        console.log(countriesOption);
+        setFormData((prev) => ({
+          ...prev,
+          country: countriesOption,
+        }));
       })
-      )
-    }).catch((err) =>{
-
-      console.error(err)
-    })
-  },[])
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   const onFinish = async (values) => {
     console.log("Collected Values:", values, formData);
@@ -87,7 +96,6 @@ console.log(countriesOption)
         message.success("Signup successful!");
       }
     } catch (error) {
-      
       console.error("API Error:", error.message);
     }
   };
@@ -100,13 +108,13 @@ console.log(countriesOption)
   };
 
   const handleCheckboxChange = (checkedValues) => {
-    console.log(checkedValues, "check"); 
+    console.log(checkedValues, "check");
     setFormData((prev) => ({
       ...prev,
-      goals: checkedValues, 
+      goals: checkedValues,
     }));
 
-    console.log(formData,"formdata")
+    console.log(formData, "formdata");
   };
 
   const sendOtp = async () => {
@@ -233,9 +241,15 @@ console.log(countriesOption)
       icon: <UserOutlined />,
       content: (
         <>
-          <Form.Item name="name" label="Your Name" rules={[{ required: true }]}>
+          <Form.Item
+            name="name"
+            label="Your Name"
+            
+            rules={[{ required: true }]}
+          >
             <Input
               value={formData.name}
+               className="!inputback w-full !text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
               onChange={(e) => handleChange("name", e.target.value)}
             />
           </Form.Item>
@@ -243,42 +257,61 @@ console.log(countriesOption)
             name="password"
             label="Password"
             rules={[{ required: true }]}
+            className="text-slate-800 text-sm font-medium mb-2 block"
           >
             <Input.Password
               value={formData.password}
+              classNames="inputback"
               onChange={(e) => handleChange("password", e.target.value)}
             />
           </Form.Item>
           <Form.Item
             label="Mobile Number"
             name="phone"
+            className="text-slate-800 text-sm font-medium mb-2 block"
             rules={[
               { required: true, message: "Mobile number is required" },
-              { pattern: /^[0-9]{10}$/, message: "Enter a valid 10-digit mobile number" }, // Validates 10 digits
+              {
+                pattern: /^[0-9]{10}$/,
+                message: "Enter a valid 10-digit mobile number",
+              }, // Validates 10 digits
             ]}
           >
             <Input
-             type="tel" 
+              type="tel"
               value={formData.phone}
               onChange={(e) => handleChange("phone", e.target.value)}
               placeholder="Enter your mobile number"
               maxLength={10}
+              className="inputback !w-full !text-slate-800 !text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
             />
           </Form.Item>
           <Form.Item
             name="language"
             label="Language"
+            className="text-slate-800 text-sm font-medium mb-2 block"
             rules={[{ required: true }]}
+            placeholder="Enter your language"
           >
             <Input
               value={formData.language}
-              onChange={(e) => handleChange("language",e.target.value)}
+              className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+              onChange={(e) => handleChange("language", e.target.value)}
             />
           </Form.Item>
-          <Form.Item name="job" label="Job" rules={[{ required: true }]}>
+          <Form.Item
+            name="job"
+            label="Job"
+            className="text-slate-800 text-sm font-medium mb-2 block"
+            rules={[{ required: true }]}
+          >
             <Select
               value={formData.role}
               onChange={(value) => handleChange("role", value)}
+              placeholder="Select Job value"
+              
+              popupClassName="inputback"
+              className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
             >
               <Option value="developer">Developer</Option>
               <Option value="manager">Manager</Option>
@@ -288,11 +321,16 @@ console.log(countriesOption)
           <Form.Item
             name="usedCRM"
             label="Have you used CRM?"
+            className="text-slate-800 text-sm font-medium mb-2 block"
             rules={[{ required: true }]}
+           
           >
             <Select
               value={formData.crmCheck}
+              className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
               onChange={(value) => handleChange("crmCheck", value)}
+              
+               placeholder="Select a option"
             >
               <Option value="yes">Yes</Option>
               <Option value="no">No</Option>
@@ -310,20 +348,26 @@ console.log(countriesOption)
             name="companyName"
             label="Company Name"
             rules={[{ required: true }]}
+            className="text-slate-800 text-sm font-medium mb-2 block"
           >
             <Input
               value={formData.companyName}
-              onChange={(e) => handleChange("companyName",e.target.value)}
+              className="inputback test w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+              onChange={(e) => handleChange("companyName", e.target.value)}
             />
           </Form.Item>
           <Form.Item
             name="companySize"
             label="Company Size"
             rules={[{ required: true }]}
+            className="text-slate-800 text-sm font-medium mb-2 block"
+
           >
             <Select
               value={formData.companySize}
               onChange={(value) => handleChange("companySize", value)}
+              placeholder="Select company size"
+              className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
             >
               <Option value="small">Small (1-10 employees)</Option>
               <Option value="medium">Medium (11-50 employees)</Option>
@@ -334,31 +378,36 @@ console.log(countriesOption)
             name="country"
             label="Country"
             rules={[{ required: true }]}
+            className="text-slate-800 text-sm font-medium mb-2 block"
           >
-           <Select
-             showSearch
-             placeholder="Select Country"
-             options={formData.country}
-             value={selectedCountry}
-             onChange={(value) => setSelectedCountry(value)}
-             filterOption={(input,option) =>{
-               option.label.toLowerCase().includes(input.toLocaleLowerCase());
-             }}
-             onSearch={(value) => {
-          if (!value) setSelectedCountry(undefined); 
-        }}
-           />
+            <Select
+              showSearch
+              placeholder="Select country"
+              options={formData.country}
+              value={selectedCountry}
+              className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+              onChange={(value) => setSelectedCountry(value)}
+              filterOption={(input, option) => {
+                option.label.toLowerCase().includes(input.toLocaleLowerCase());
+              }}
+              onSearch={(value) => {
+                if (!value) setSelectedCountry(undefined);
+              }}
+            />
           </Form.Item>
           <Form.Item
             name="numberOfPeople"
             label="Number of People"
             rules={[{ required: true, type: "number", min: 1 }]}
+            className="text-slate-800 text-sm font-medium mb-2 block"
           >
-            <InputNumber 
-            value={formData.numberOfPeople}
-             onChange={(value) => handleChange("numberOfPeople", value)}
-             min={1}
-             />
+            <InputNumber
+              value={formData.numberOfPeople}
+              
+              className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+              onChange={(value) => handleChange("numberOfPeople", value)}
+              min={1}
+            />
           </Form.Item>
         </>
       ),
@@ -370,27 +419,26 @@ console.log(countriesOption)
         <>
           <Form.Item
             name="goals"
-            className=" font-bold"
+            className="text-slate-800 text-sm font-medium mb-2 block"
             label="What would like to focus on during the trail?"
-           
-            
           >
-            <Checkbox.Group className="flex flex-col "
-            value={formData.goals}
-            onChange={handleCheckboxChange}
+            <Checkbox.Group
+              className="flex flex-col "
+              value={formData.goals}
+              onChange={handleCheckboxChange}
             >
-              <div className="boxyourgoal hover:bg-gray-200 shadow-md">
+              <div className="boxyourgoal hover:bg-blue-100 shadow-2xs">
                 <Checkbox value="freeTrial">Free Trial</Checkbox>
               </div>
-              <div className="boxyourgoal hover:bg-gray-200 shadow-md">
+              <div className="boxyourgoal hover:bg-blue-100 shadow-2xs">
                 {" "}
                 <Checkbox value="getCRM">Get CRM</Checkbox>
               </div>
-              <div className="boxyourgoal hover:bg-gray-200 shadow-md">
+              <div className="boxyourgoal hover:bg-blue-100 shadow-2xs">
                 {" "}
                 <Checkbox value="getSales">Get Sales</Checkbox>
               </div>
-              <div className="boxyourgoal hover:bg-gray-200 shadow-md">
+              <div className="boxyourgoal hover:bg-blue-100 shadow-2xs">
                 {" "}
                 <Checkbox value="getLeads">Get Leads</Checkbox>
               </div>
@@ -418,7 +466,7 @@ console.log(countriesOption)
           ))}
         </Steps>
         <div className="my-4 min-h-80">{steps[current].content}</div>
-        <div className="flex justify-between">
+        <div className="flex justify-between mt-32">
           {current > 0 && (
             <Button onClick={() => setCurrent(current - 1)}>Previous</Button>
           )}

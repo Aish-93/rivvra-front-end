@@ -1,15 +1,24 @@
 .boxyourgoal{
 
-    font-weight: 400;
+    font-weight:600;
     border: 1px solid #e4e6e9;
+    border-radius: 10px;
     width: 488px;
-    padding: 5px;
+    padding: 10px;
     height: 52px;
     display: flex;
     align-items: center;
     margin: 10px;
     cursor: pointer;
+
+    
     
     /* background-color: aqua; */
 }
 
+.boxyourgoal :hover{
+    background-color: #e8f0fd;
+}
+.inputback{
+    background-color: #e8f0fd !important;
+}
