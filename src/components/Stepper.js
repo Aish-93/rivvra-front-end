@@ -8,6 +8,9 @@ import {
   RiseOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import { CgProfile } from "react-icons/cg";
+import { TfiStatsUp } from "react-icons/tfi"
+import { GoGoal } from "react-icons/go";
 import {
   Form,
   Input,
@@ -34,7 +37,7 @@ const Stepper = () => {
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+ 
 
   const [formData, setFormData] = useState({
     emailId: "",
@@ -53,18 +56,18 @@ const Stepper = () => {
 
   const [selectedCountry, setSelectedCountry] = useState(null);
 
-  useEffect(() => {
-    // Simulate API call to fetch existing user data
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${API_URL}profile`);
-        form.setFieldsValue(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, [form]);
+  // useEffect(() => {
+  //   // Simulate API call to fetch existing user data
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(`${API_URL}profile`);
+  //       form.setFieldsValue(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [form]);
 
   useEffect(() => {
     axios
@@ -117,128 +120,12 @@ const Stepper = () => {
     console.log(formData, "formdata");
   };
 
-  const sendOtp = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.post(`${API_URL}send-otp`, { email });
-      if (response.data.success) {
-        setIsOtpSent(true);
-        setMessage("Otp sent to your mail!!!");
-      } else {
-        setMessage("Failed to send Otp!!!");
-      }
-    } catch (err) {
-      setMessage("error sending Otp please try again !!! " + err.message);
-    }
-    setLoading(false);
-  };
-
-  const verifyOtp = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.post(`${API_URL}verify-otp`, { email, otp });
-      if (response.data.success) {
-        setMessage("OTP Verified! Redirecting...");
-        setCurrent(current + 1);
-        // Redirect user to next step or dashboard
-      } else {
-        setMessage("Invalid OTP. Try again.");
-      }
-    } catch (error) {
-      setMessage("Error verifying OTP.");
-      console.error(error);
-    }
-    setLoading(false);
-  };
+ 
   const steps = [
-    {
-      title: "Email Verification",
-      icon: <MailOutlined />,
-
-      content: (
-        <>
-          <div className="min-h-72 flex justify-center flex-col">
-            <h2 className="text-xl font-bold text-center mb-4 ">
-              {isOtpSent ? "Enter OTP" : "Verify Your Email"}
-            </h2>
-            {!isOtpSent ? (
-              <>
-                <Form.Item
-                  name="email"
-                  label="Email"
-                  rules={[{ required: true, type: "email" }]}
-                >
-                  <Input
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </Form.Item>
-                <div>
-                  <div className=" flex justify-items-start m-3 ml-2">
-                    <input type="checkbox" />
-                    <div className=" ml-5">
-                      {"By Signing up, you accept our "}
-                      <a>Terms of service</a> and <a>privacy policy</a>{" "}
-                    </div>
-                  </div>
-                  <div className=" flex justify-items-start m-3 ml-2">
-                    <input type="checkbox" />
-                    <div className=" ml-5">
-                      {
-                        "Get helpful tips, product updates and exclusive offers via email"
-                      }
-                    </div>
-                  </div>
-                  <button
-                    onClick={sendOtp}
-                    className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
-                    disabled={loading}
-                  >
-                    {loading ? "Sending..." : "Sent Otp"}
-                  </button>
-                </div>
-              </>
-            ) : (
-              <div>
-                <input
-                  type="text"
-                  className="p-2 rounded-md"
-                  placeholder="Enter Otp"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                />
-                <button
-                  onClick={verifyOtp}
-                  className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
-                  disabled={loading}
-                >
-                  {loading ? "Verifying..." : "Verify Otp"}
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* <div className="min-h-72 flex justify-center flex-col">
-                  <>
-                  <Form.Item
-                  name="emailId"
-                  label="Email"
-                  rules={[{ required: true, type: "email", message: "Enter a valid email" }]}
-                >
-                  <Input
-                    value={formData.emailId}
-                    placeholder="Enter your Email"
-                    onChange={(e) => handleChange("emailId",e.target.value)}
-                  />
-                </Form.Item>
-                </>
-          </div> */}
-        </>
-      ),
-    },
+   
     {
       title: "About you",
-      icon: <UserOutlined />,
+      icon: <CgProfile  />,
       content: (
         <>
           <Form.Item
@@ -341,7 +228,7 @@ const Stepper = () => {
     },
     {
       title: "Your company",
-      icon: <RiseOutlined />,
+      icon: <TfiStatsUp  />,
       content: (
         <>
           <Form.Item
@@ -414,7 +301,7 @@ const Stepper = () => {
     },
     {
       title: "Your goals",
-      icon: <AimOutlined />,
+      icon: <GoGoal  />,
       content: (
         <>
           <Form.Item
@@ -459,7 +346,9 @@ const Stepper = () => {
   };
   return (
     <div>
-      <Form form={form} onFinish={onFinish} layout="vertical">
+      <Form form={form} onFinish={onFinish} layout="vertical"
+      className="border-blue-500 px-[20px] border-2 mt-[100]  my-12 rounded-2xl h-[700px] flex justify-center align-middle ml-auto mr-auto flex-col w-[600px]"
+      >
         <Steps current={current}>
           {steps.map((step, index) => (
             <Step key={index} title={step.title} icon={step.icon} />

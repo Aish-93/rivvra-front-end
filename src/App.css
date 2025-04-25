@@ -1,3 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* @plugin "daisyui"; */
+
 :root {
   --primary-color: #3498db;
   --primary-botton-color:#eb77bc;
@@ -65,4 +72,8 @@
   display: flex;
   justify-content: center;
   
+}
+
+.ant-form{
+  padding: 20px !important;
 }

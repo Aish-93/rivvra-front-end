@@ -47,19 +47,19 @@ const SignUp = () => {
   return (
     <div className="flex  justify-center items-center containersign">
       {
-        <div className="modalBox modalcolor bg-opacity-50 flex justify-center items-center">
-          <Modal open={isModalOpen} closable={false} footer={null}>
+        <div className=" bg-opacity-50 flex justify-center items-center">
+          {/* <Modal open={isModalOpen} closable={false} footer={null}> */}
             <div className="p-6 rounded-3xl ">
               <h2 className="text-2xl mb-4 font-bold">Let's Connect</h2>
-              <Stepper className="m-3" />
-              <p className="text-sm mt-4">
+              <Stepper className="m-3 p-[20px]" />
+              {/* <p className="text-sm mt-4">
                 Already have an account?
                 <p onClick={()=> navigate('/')} className="text-blue-500">
                   Login
                 </p>
-              </p>
+              </p> */}
             </div>
-          </Modal>
+          {/* </Modal> */}
         </div>
       }
     </div>
