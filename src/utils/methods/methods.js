@@ -5,15 +5,18 @@ const SECRET_KEY ="humotTechrivvra@#@*"
 
 
 const setItem  = (value)=> {
-
-     const encryptedName = CryptoJS.AES.encrypt(value.res.name,SECRET_KEY).toString();
-     const encryptPassword = CryptoJS.AES.encrypt(value.password,SECRET_KEY).toString();
+console.log(value,"method")
+     const encryptedName = CryptoJS.AES.encrypt(value.data,SECRET_KEY).toString();
     window.localStorage.setItem( 'username',encryptedName);
-    window.localStorage.setItem( 'password',encryptPassword)
+    
 
 };
 
 
+const setPass =(value) =>{
+    const encryptPassword = CryptoJS.AES.encrypt(value,SECRET_KEY).toString();
+    window.localStorage.setItem( 'password',encryptPassword)
+}
 const getItemUserAuth = () =>{
 
     const encryptedUsername = window.localStorage.getItem('username');
@@ -37,7 +40,7 @@ const logoutUser =() =>{
 }
 
 
-export {setItem ,getItemUserAuth,logoutUser};
+export {setItem ,getItemUserAuth,logoutUser,setPass};
 
 
 

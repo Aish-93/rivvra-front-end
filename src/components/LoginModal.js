@@ -31,10 +31,7 @@ const LoginModal = () => {
       console.log(res);
 
       if (res.message === "success") {
-        setItem({
-          res,
-          password,
-        });
+        
         setIsModalOpen(false);
         if (res.redirectUrl) {
           window.location.href = data.redirectUrl;
@@ -68,7 +65,7 @@ const LoginModal = () => {
   console.log(window.location,"test")
   return (
     <div className="flex  justify-center items-center">
-      <Link to="/">
+      <Link to="/login">
         {" "}
         <button
           // onClick={() => setIsOpen(true)}

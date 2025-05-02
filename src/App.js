@@ -1,4 +1,5 @@
 import "./App.css";
+import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import LandingPage from "./components/Landing";
 import Navbar from "./components/Navbar";
@@ -10,13 +11,16 @@ import Faq from "./components/Faq";
 import LoginPage from "./components/LoginPage";
 import { useLocation } from "react-router";
 import Register from "./components/Register";
+import { EmailContext } from "./components/context/emailContext";
 
 function App() {
   const location = useLocation();
+  const [email,setEmail] = useState("")
 
   const hideFooterRoute = ["/login","/register","/signup"];
   return (
     <>
+    <EmailContext.Provider value={{email,setEmail }} >
       <Navbar />
       <div className="mt-16">
       <Routes>
@@ -36,6 +40,7 @@ function App() {
         </>
       )}
       <Footer />
+      </EmailContext.Provider>
     </>
   );
 }

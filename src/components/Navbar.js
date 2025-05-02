@@ -1,57 +1,51 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { Modal, Input, Button} from "antd";  
-import "./landing.css"  
+import { Modal, Input, Button } from "antd";
+import "./landing.css";
 import SignUp from "./SignUpMod";
 import { loginCall } from "../utils/methods/auth";
 import LoginModal from "./LoginModal";
-import { getItemUserAuth,logoutUser } from "../utils/methods/methods";
+import { getItemUserAuth, logoutUser } from "../utils/methods/methods";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [email,setEmail] = useState("");
-  const [password,setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [isModalUser, setIsModalUser] = useState(false);
-  const [isModalOpen,setIsModalOpen] = useState(false)
-  const [name,setName] = useState("")
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [name, setName] = useState("");
 
-  useEffect(()=>{
+  useEffect(() => {
+    const { username } = getItemUserAuth();
 
-  const {username }=  getItemUserAuth();
-  
-  setName(username);
-  username ? setIsModalUser(true) :setIsModalUser(false)
-  },[])
+    setName(username);
+    username ? setIsModalUser(true) : setIsModalUser(false);
+  }, []);
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
- 
 
-  const logoutCase = () =>{
+  const logoutCase = () => {
     setIsModalUser(false);
     logoutUser();
-  }
-  const onLoginBtnClick = async (e) =>{
+  };
+  const onLoginBtnClick = async (e) => {
     e.preventDefault();
-   loginCall({
-      emailId:email,
-      password:password
-    }).then((res)=>{ 
-    if(res){
-      
-      
-    }
-  }
-    )
-    .catch((err)=>
-    console.warn(err.message))
+    loginCall({
+      emailId: email,
+      password: password,
+    })
+      .then((res) => {
+        if (res) {
+        }
+      })
+      .catch((err) => console.warn(err.message));
 
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  };
 
   return (
-  
     <nav className="bg-white shadow-md top-0  fixed w-full z-[999]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
@@ -94,14 +88,29 @@ const Navbar = () => {
               
             </button> */}
                 {/* <SignUp/> */}
-                <LoginModal showModal={showModal} />
+
+                <Link to="/login">
+                <button
+                  // onClick={() => setIsOpen(true)}
+                  onClick={showModal}
+                  className="btnPrimary text-white px-4 py-2  cursor-pointer hover:bg-blue-600"
+                >
+                  Log In
+                </button>
+                </Link>
               </>
             ) : (
-              
-              <div className="flex items-center "><div className="text-gray-700 usernameBtn mt-auto mb-auto cursor-pointer
-               hover:text-blue-600 overflow-hidden text-ellipsis whitespace-nowrap ">{`Hi ${name}`}</div>
-              <button className="btnPrimary text-white px-4 py-2  cursor-pointer hover:bg-blue-600"
-              onClick={logoutCase}>Log Out</button>
+              <div className="flex items-center ">
+                <div
+                  className="text-gray-700 usernameBtn mt-auto mb-auto cursor-pointer
+               hover:text-blue-600 overflow-hidden text-ellipsis whitespace-nowrap "
+                >{`Hi, ${name}`}</div>
+                <button
+                  className="btnPrimary text-white px-4 py-2  cursor-pointer hover:bg-blue-600"
+                  onClick={logoutCase}
+                >
+                  Log Out
+                </button>
               </div>
             )}
           </div>
@@ -140,7 +149,6 @@ const Navbar = () => {
         </div>
       )}
     </nav>
-  
   );
 };
 

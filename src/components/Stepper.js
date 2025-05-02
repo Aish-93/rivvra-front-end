@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   LoadingOutlined,
   SmileOutlined,
@@ -25,22 +25,24 @@ import {
 import axios from "axios";
 import "./Stepper.css";
 import { API_URL } from "../constants/constant";
+import { EmailContext } from "./context/emailContext";
 
 const { Step } = Steps;
 const { Option } = Select;
 
 const Stepper = () => {
+  const { email }= useContext(EmailContext)
   const [current, setCurrent] = useState(1);
   const [form] = Form.useForm();
 
-  const [email, setEmail] = useState(null);
+
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
  
 
   const [formData, setFormData] = useState({
-    emailId: "",
+    emailId: email, // using context for email
     name: "",
     password: "",
     country: [], // will be array as using list to select and from api fetch
@@ -54,7 +56,7 @@ const Stepper = () => {
     language: "",
   });
 
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountryOpt, setSelectedCountryOtp] = useState(null);
 
   // useEffect(() => {
   //   // Simulate API call to fetch existing user data
@@ -80,10 +82,7 @@ const Stepper = () => {
           }))
           .sort((a, b) => a.label.localeCompare(b.label));
         console.log(countriesOption);
-        setFormData((prev) => ({
-          ...prev,
-          country: countriesOption,
-        }));
+        setSelectedCountryOtp(countriesOption)
       })
       .catch((err) => {
         console.error(err);
@@ -120,7 +119,7 @@ const Stepper = () => {
     console.log(formData, "formdata");
   };
 
- 
+ console.log(email,"testemail")
   const steps = [
    
     {
@@ -270,15 +269,16 @@ const Stepper = () => {
             <Select
               showSearch
               placeholder="Select country"
-              options={formData.country}
-              value={selectedCountry}
+              options={selectedCountryOpt}
+               value={formData.country}
               className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
-              onChange={(value) => setSelectedCountry(value)}
+              onChange={(value) => handleChange('country',value)}
               filterOption={(input, option) => {
-                option.label.toLowerCase().includes(input.toLocaleLowerCase());
-              }}
+              return  option.label.toLowerCase().includes(input.toLocaleLowerCase());
+              }
+              }
               onSearch={(value) => {
-                if (!value) setSelectedCountry(undefined);
+                if (!value) handleChange('country',undefined);
               }}
             />
           </Form.Item>
@@ -363,7 +363,7 @@ const Stepper = () => {
             <Button onClick={() => setCurrent(current + 1)}>Next</Button>
           )}
           {current === steps.length - 1 && (
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" >
               Sign up
             </Button>
           )}

@@ -1,34 +1,41 @@
 import React, { useState } from "react";
+const jwt_decode = require("jwt-decode").default;
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { API_URL } from "../constants/constant";
-// import jwt_decode from "jwt-decode"; 
 
-const clientId = "403680778141-vc53o3fr7pumkgv1hhmnt16lcf12ao4i.apps.googleusercontent.com"; // Replace with your actual client ID
+const clientId =
+  "403680778141-vc53o3fr7pumkgv1hhmnt16lcf12ao4i.apps.googleusercontent.com"; // Replace with your actual client ID
 
-
-const LoginGoogle = () => {
-
+const LoginGoogle = ({ handlGoogleApi }) => {
   // const [userDetails,setUserDetails] = useState({})
   const handleSuccess = async (response) => {
-    const decoded = response.credential;
+    try {
+      const decoded = jwt_decode(response.credential);
 
+      const res = await axios.post(
+        `${API_URL}google-login`,
+        { token: response.credential },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
-    try{
+      console.log(res, "google login");
 
-      const res = await axios.post(`${API_URL}google-login`,JSON.stringify(decoded));
-
-      console.log(res,"google login")
-      
+      // getting user login details from google api like email firstname lastname etc
+      if (res.status === 200) {
+        console.log(res);
+        // setEmail(res.data.user.email);
+        handlGoogleApi(res.data.user.email);
+      }
+    } catch (err) {
+      console.error(err.message);
     }
-    catch(err){
-      console.error(err.message)
-    }
-    // jwt_decode(
-        
-    // ); 
 
-    console.log("Google User:", decoded, response);
     // Send token to backend for authentication
   };
 
@@ -38,8 +45,12 @@ const LoginGoogle = () => {
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
-      <div className="flex justify-center items-center border-1 rounded-md ">
-        <GoogleLogin onSuccess={handleSuccess} onError={handleFailure} />
+      <div className="flex justify-center items-center  px-2">
+        <GoogleLogin
+          onSuccess={handleSuccess}
+          onError={handleFailure}
+          width="200px"
+        />
       </div>
     </GoogleOAuthProvider>
   );
