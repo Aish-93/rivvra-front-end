@@ -31,8 +31,8 @@ const { Step } = Steps;
 const { Option } = Select;
 
 const Stepper = () => {
-  const { email }= useContext(EmailContext)
-  const [current, setCurrent] = useState(1);
+  const { email,name,lastName,isLocalLogin,setIsLocalLogin,googleId,setGoogleId }= useContext(EmailContext)
+  const [current, setCurrent] = useState(0);
   const [form] = Form.useForm();
 
 
@@ -40,10 +40,21 @@ const Stepper = () => {
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
  
-
+  useEffect(()=>{
+   
+    setFormData((prev)=>({
+      ...prev,
+      name:name +" "+ lastName,
+      email: email,
+      googleId:googleId
+    })
+    );
+    console.log(formData,"useeffect")
+  },[email,name,lastName])
+console.log(email,name,lastName,"stepper test")
   const [formData, setFormData] = useState({
     emailId: email, // using context for email
-    name: "",
+    name: name +" "+  lastName,
     password: "",
     country: [], // will be array as using list to select and from api fetch
     role: "",
@@ -54,6 +65,7 @@ const Stepper = () => {
     phone: "",
     goals: [],
     language: "",
+    googleId:null
   });
 
   const [selectedCountryOpt, setSelectedCountryOtp] = useState(null);
@@ -128,7 +140,7 @@ const Stepper = () => {
       content: (
         <>
           <Form.Item
-            name="name"
+            
             label="Your Name"
             
             rules={[{ required: true }]}
@@ -139,8 +151,9 @@ const Stepper = () => {
               onChange={(e) => handleChange("name", e.target.value)}
             />
           </Form.Item>
+          { isLocalLogin && (
           <Form.Item
-            name="password"
+            
             label="Password"
             rules={[{ required: true }]}
             className="text-slate-800 text-sm font-medium mb-2 block"
@@ -151,9 +164,11 @@ const Stepper = () => {
               onChange={(e) => handleChange("password", e.target.value)}
             />
           </Form.Item>
+          )
+    }
           <Form.Item
             label="Mobile Number"
-            name="phone"
+           
             className="text-slate-800 text-sm font-medium mb-2 block"
             rules={[
               { required: true, message: "Mobile number is required" },
@@ -173,7 +188,7 @@ const Stepper = () => {
             />
           </Form.Item>
           <Form.Item
-            name="language"
+            
             label="Language"
             className="text-slate-800 text-sm font-medium mb-2 block"
             rules={[{ required: true }]}
@@ -186,7 +201,7 @@ const Stepper = () => {
             />
           </Form.Item>
           <Form.Item
-            name="job"
+            
             label="Job"
             className="text-slate-800 text-sm font-medium mb-2 block"
             rules={[{ required: true }]}
@@ -205,7 +220,7 @@ const Stepper = () => {
             </Select>
           </Form.Item>
           <Form.Item
-            name="usedCRM"
+           
             label="Have you used CRM?"
             className="text-slate-800 text-sm font-medium mb-2 block"
             rules={[{ required: true }]}
@@ -231,7 +246,7 @@ const Stepper = () => {
       content: (
         <>
           <Form.Item
-            name="companyName"
+            
             label="Company Name"
             rules={[{ required: true }]}
             className="text-slate-800 text-sm font-medium mb-2 block"
@@ -243,7 +258,7 @@ const Stepper = () => {
             />
           </Form.Item>
           <Form.Item
-            name="companySize"
+            
             label="Company Size"
             rules={[{ required: true }]}
             className="text-slate-800 text-sm font-medium mb-2 block"
@@ -261,7 +276,7 @@ const Stepper = () => {
             </Select>
           </Form.Item>
           <Form.Item
-            name="country"
+            
             label="Country"
             rules={[{ required: true }]}
             className="text-slate-800 text-sm font-medium mb-2 block"
@@ -283,7 +298,7 @@ const Stepper = () => {
             />
           </Form.Item>
           <Form.Item
-            name="numberOfPeople"
+            
             label="Number of People"
             rules={[{ required: true, type: "number", min: 1 }]}
             className="text-slate-800 text-sm font-medium mb-2 block"
@@ -305,7 +320,7 @@ const Stepper = () => {
       content: (
         <>
           <Form.Item
-            name="goals"
+            
             className="text-slate-800 text-sm font-medium mb-2 block"
             label="What would like to focus on during the trail?"
           >

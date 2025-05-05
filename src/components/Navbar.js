@@ -16,13 +16,13 @@ const Navbar = () => {
   const [isModalUser, setIsModalUser] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState("");
-
+  const { username } = getItemUserAuth();
   useEffect(() => {
-    const { username } = getItemUserAuth();
-
+    
+      console.log(username,"navbar")
     setName(username);
     username ? setIsModalUser(true) : setIsModalUser(false);
-  }, []);
+  }, [username]);
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
 

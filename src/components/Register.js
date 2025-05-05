@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { Form, Input, Button, Steps, Select, Checkbox, message } from "antd";
 import { TiTick } from "react-icons/ti";
 import { CiMail } from "react-icons/ci";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { EmailContext } from "./context/emailContext";
 import LoginGoogle from "./LoginGoogle";
 
 const Register = () => {
-  const { setEmail } = useContext(EmailContext);
+  
+  const { setEmail,setName,setLastName,email } = useContext(EmailContext);
 
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
@@ -15,9 +16,11 @@ const Register = () => {
   const [emailId, setEmailId] = useState("");
   const [message, setMessage] = useState("");
 
-  // useEffect(()=>{
-     
-  // },[emailId])
+  useEffect(()=>{
+    // console.log(email,"email")
+     setEmailId(email);
+    //  console.log(emailId,"id",email)
+  },[emailId])
   
   const sendOtp = async () => {
     console.log("sendOtp clicked");
@@ -42,6 +45,7 @@ const Register = () => {
     setEmailId(value)
 console.log("callback", value)
   }
+
   const verifyOtp = async () => {
     setLoading(true);
     try {
@@ -108,7 +112,7 @@ console.log("callback", value)
                 prefix={<CiMail className="scale-120 accent-blue-600" />}
                 onChange={(e) => setEmailId(e.target.value)}
                 placeholder="Enter your work email"
-              />
+              />{emailId}
             </Form.Item>
             <div>
               <div className=" flex justify-items-start m-3 ml-2">
@@ -151,7 +155,9 @@ console.log("callback", value)
                 </Link>
               </div>
               <div>
-                <LoginGoogle  handlGoogleApi={handlGoogleApi} />
+                <LoginGoogle  
+                handlGoogleApi={handlGoogleApi}
+                 />
               </div>
             </div>
           </div>

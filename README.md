@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). 
 
 ## Available Scripts
 
@@ -68,3 +68,26 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+# project details by developer
+
+used antd for consistence design
+using tailwind for css and component ui 
+made create react app migrated to parcel for better caching 
+using google login
+enable routing using react router
+
+
+## sign up login flow
+
+# need to create the signup login via google login if it doesn't take that route it will be asked to sign using stepper
+
+ <!-- button be created to login on database 
+ redirect to same tab -->
+
+## change the router sign up modal to page not modal same as pipedrive
+## add logout and login feature 
+## add drop down after login 
+## after sign up only call create odoo method 
+## 

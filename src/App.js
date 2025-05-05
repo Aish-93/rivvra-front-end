@@ -15,12 +15,19 @@ import { EmailContext } from "./components/context/emailContext";
 
 function App() {
   const location = useLocation();
-  const [email,setEmail] = useState("")
+  const [email,setEmail] = useState("");
+  const [name,setName] = useState("");
+  const [lastName,setLastName] = useState("");
+  const [isLocalLogin,setIsLocalLogin] = useState(true);
+  const [googleId,setGoogleId] = useState(null);
+  
+
 
   const hideFooterRoute = ["/login","/register","/signup"];
   return (
     <>
-    <EmailContext.Provider value={{email,setEmail }} >
+    <EmailContext.Provider value={{email,setEmail ,name,setLastName,lastName,
+      setName,isLocalLogin,setIsLocalLogin,googleId,setGoogleId}} >
       <Navbar />
       <div className="mt-16">
       <Routes>
