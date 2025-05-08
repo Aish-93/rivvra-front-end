@@ -1,13 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  LoadingOutlined,
-  SmileOutlined,
-  SolutionOutlined,
-  AimOutlined,
-  MailOutlined,
-  RiseOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+
 import { CgProfile } from "react-icons/cg";
 import { TfiStatsUp } from "react-icons/tfi"
 import { GoGoal } from "react-icons/go";
@@ -26,11 +18,16 @@ import axios from "axios";
 import "./Stepper.css";
 import { API_URL } from "../constants/constant";
 import { EmailContext } from "./context/emailContext";
+import { useNavigate } from "react-router";
+
+
 
 const { Step } = Steps;
 const { Option } = Select;
-
+const job = ["CEO","CTO","Developer","SalesPerson","Manger","Business Owner","Designer","Sperviser","Executive"]
+const language =["English","Hindi"];
 const Stepper = () => {
+  const navigate =useNavigate();
   const { email,name,lastName,isLocalLogin,setIsLocalLogin,googleId,setGoogleId }= useContext(EmailContext)
   const [current, setCurrent] = useState(0);
   const [form] = Form.useForm();
@@ -57,14 +54,14 @@ console.log(email,name,lastName,"stepper test")
     name: name +" "+  lastName,
     password: "",
     country: [], // will be array as using list to select and from api fetch
-    role: "",
-    crmCheck: "",
+    role: undefined,
+    crmCheck: undefined,
     companyName: "",
     companySize: "",
     numberOfPeople: 0,
     phone: "",
     goals: [],
-    language: "",
+    language: undefined,
     googleId:null
   });
 
@@ -108,6 +105,7 @@ console.log(email,name,lastName,"stepper test")
       const response = await axios.post(`${API_URL}signup`, formData);
       if (response.status === 200) {
         message.success("Signup successful!");
+        navigate("/login");
       }
     } catch (error) {
       console.error("API Error:", error.message);
@@ -138,16 +136,20 @@ console.log(email,name,lastName,"stepper test")
       title: "About you",
       icon: <CgProfile  />,
       content: (
-        <>
+        <div className="max-h-[480px] overflow-y-auto custom-scroll">
+        <div className="headers"><h1 className="head">About you</h1>
+        <p>We'll use this information to tailor Rivvra to your needs.</p></div>
+        {/* <Form> */}
           <Form.Item
-            
+          
             label="Your Name"
-            
+            className="text-slate-800 text-sm font-medium mb-2"
             rules={[{ required: true }]}
           >
             <Input
+              placeholder="Enter your Name"
               value={formData.name}
-               className="!inputback w-full !text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+              className="inputback w-full h-10 text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent  outline-blue-500 transition-all"
               onChange={(e) => handleChange("name", e.target.value)}
             />
           </Form.Item>
@@ -194,11 +196,22 @@ console.log(email,name,lastName,"stepper test")
             rules={[{ required: true }]}
             placeholder="Enter your language"
           >
-            <Input
+             <Select
               value={formData.language}
+              onChange={(value) => handleChange("language", value)}
+              placeholder="Enter your language"
+              
+              popupClassName="inputback"
               className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
-              onChange={(e) => handleChange("language", e.target.value)}
-            />
+            >
+              {
+                language.map((item)=>(
+                  <Option value={item}>{item}</Option>
+                ))
+              }
+            
+            </Select>
+        
           </Form.Item>
           <Form.Item
             
@@ -209,19 +222,22 @@ console.log(email,name,lastName,"stepper test")
             <Select
               value={formData.role}
               onChange={(value) => handleChange("role", value)}
-              placeholder="Select Job value"
+              placeholder="Which job title describes you role best?"
               
               popupClassName="inputback"
               className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
             >
-              <Option value="developer">Developer</Option>
-              <Option value="manager">Manager</Option>
-              <Option value="designer">Designer</Option>
+              {
+                job.map((item)=>(
+                  <Option value={item}>{item}</Option>
+                ))
+              }
+            
             </Select>
           </Form.Item>
           <Form.Item
            
-            label="Have you used CRM?"
+            label="Have you used CRM before?"
             className="text-slate-800 text-sm font-medium mb-2 block"
             rules={[{ required: true }]}
            
@@ -237,7 +253,8 @@ console.log(email,name,lastName,"stepper test")
               <Option value="no">No</Option>
             </Select>
           </Form.Item>
-        </>
+          {/* </Form> */}
+        </div>
       ),
     },
     {
@@ -245,6 +262,8 @@ console.log(email,name,lastName,"stepper test")
       icon: <TfiStatsUp  />,
       content: (
         <>
+        <div className="headers"><h1 className="head">About your company</h1>
+        <p>We'll use this information to tailor Rivvra to your needs.</p></div>
           <Form.Item
             
             label="Company Name"
@@ -319,6 +338,8 @@ console.log(email,name,lastName,"stepper test")
       icon: <GoGoal  />,
       content: (
         <>
+        <div className="headers"><h1 className="head">About your goals </h1>
+        <p>We'll use this information to tailor Rivvra to your needs.</p></div>
           <Form.Item
             
             className="text-slate-800 text-sm font-medium mb-2 block"

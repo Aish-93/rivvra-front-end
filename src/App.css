@@ -56,9 +56,7 @@
   flex-direction: column;
   min-width: 75vw;
 }
-.mainBox{
-  /* border: 0.5px solid grey !important; */
-}
+
 
  .ant-modal-content{
   width: 600px  ;
@@ -76,4 +74,29 @@
 
 .ant-form{
   padding: 20px !important;
+}
+
+ /* css for spinner */
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1); 
+  border-top: 4px solid #3498db; 
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
 }

@@ -5,6 +5,7 @@ import { CiMail } from "react-icons/ci";
 import { Link, useNavigate } from "react-router";
 import { EmailContext } from "./context/emailContext";
 import LoginGoogle from "./LoginGoogle";
+import Otp from "./Otp";
 
 const Register = () => {
   
@@ -163,13 +164,14 @@ console.log("callback", value)
           </div>
         ) : (
           <div>
-            <input
+            {/* <input
               type="text"
               className="p-2 rounded-md "
               placeholder="Enter Otp"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
-            />
+            /> */}
+            <Otp handleFullOtp={setOtp}/>
             <button
               onClick={verifyOtp}
               className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600"

@@ -21,4 +21,46 @@
 }
 .inputback{
     background-color: #e8f0fd !important;
+    height: 40px;
 }
+
+/* .form-group{
+    position: relative;
+    margin: 20px 0;
+} */
+
+.headers{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin:15px;
+    padding: 15px;
+    
+}
+.head{
+    font-size: x-large  ;
+    font-weight: bold;
+    color: #0e5426;
+    padding: 10px;
+   
+}
+.custom-scroll::-webkit-scrollbar {
+    width: 4px; /* Thin scrollbar */
+  }
+  
+  .custom-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background-color: #f0f0f0; /* Off-white thumb */
+    border-radius: 4px;
+  }
+  
+  /* Firefox support */
+  .custom-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #f0f0f0 transparent;
+    
+  }
