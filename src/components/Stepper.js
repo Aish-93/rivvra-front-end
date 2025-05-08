@@ -209,6 +209,7 @@ console.log(email,name,lastName,"stepper test")
                   <Option value={item}>{item}</Option>
                 ))
               }
+              
             
             </Select>
         
@@ -216,7 +217,9 @@ console.log(email,name,lastName,"stepper test")
           <Form.Item
             
             label="Job"
-            className="text-slate-800 text-sm font-medium mb-2 block"
+            className="text-slate-800 text-sm 
+            overflow-y-visible
+            font-medium mb-2 block"
             rules={[{ required: true }]}
           >
             <Select
@@ -225,7 +228,8 @@ console.log(email,name,lastName,"stepper test")
               placeholder="Which job title describes you role best?"
               
               popupClassName="inputback"
-              className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+              className="inputback w-full text-slate-800 overflow-y-visible
+              text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
             >
               {
                 job.map((item)=>(
