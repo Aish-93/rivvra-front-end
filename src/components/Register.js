@@ -71,7 +71,7 @@ console.log("callback", value)
 
   return (
     <div>
-      <div className="border-blue-500 border-2 mt-[100] px-5  rounded-2xl h-[630px] flex justify-evenly align-middle ml-auto mr-auto flex-col w-[750px] ">
+      <div className="border-blue-500 border-2 mt-[100] px-5 my-5 rounded-2xl h-[630px] flex justify-evenly align-middle ml-auto mr-auto flex-col w-[750px] ">
         <div>
           <h1 className="text-3xl text-green-900 font-bold w-[550] p-3 flex justify-center text-center mr-auto ml-auto">
             Start closing more deals with Rivvra - get 14 days on us!

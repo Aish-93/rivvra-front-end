@@ -57,7 +57,7 @@ console.log(email,name,lastName,"stepper test")
     role: undefined,
     crmCheck: undefined,
     companyName: "",
-    companySize: "",
+    companySize: undefined,
     numberOfPeople: 0,
     phone: "",
     goals: [],
@@ -250,7 +250,7 @@ console.log(email,name,lastName,"stepper test")
               value={formData.crmCheck}
               className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
               onChange={(value) => handleChange("crmCheck", value)}
-              
+              popupClassName="inputback"
                placeholder="Select a option"
             >
               <Option value="yes">Yes</Option>
@@ -291,6 +291,7 @@ console.log(email,name,lastName,"stepper test")
               value={formData.companySize}
               onChange={(value) => handleChange("companySize", value)}
               placeholder="Select company size"
+              popupClassName="inputback"
               className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
             >
               <Option value="small">Small (1-10 employees)</Option>
@@ -308,6 +309,7 @@ console.log(email,name,lastName,"stepper test")
               showSearch
               placeholder="Select country"
               options={selectedCountryOpt}
+              popupClassName="inputback"
                value={formData.country}
               className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
               onChange={(value) => handleChange('country',value)}
