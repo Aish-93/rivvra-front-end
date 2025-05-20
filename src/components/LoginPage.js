@@ -10,7 +10,7 @@ import { setItem, getItemUserAuth, setPass } from "../utils/methods/methods";
 import Loader from "./Loader";
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { setEmail } = useContext(EmailContext);
+  const { setEmail,email } = useContext(EmailContext);
 
   const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");

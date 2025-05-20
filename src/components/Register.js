@@ -14,21 +14,21 @@ const Register = () => {
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [emailId, setEmailId] = useState("");
+  // const [emailId, setEmailId] = useState("");
   const [message, setMessage] = useState("");
 
-  useEffect(()=>{
-    // console.log(email,"email")
-     setEmailId(email);
-    //  console.log(emailId,"id",email)
-  },[emailId])
+  // useEffect(()=>{
+
+  //    setEmailId(email);
+    
+  // },[emailId])
   
   const sendOtp = async () => {
     console.log("sendOtp clicked");
-    setEmail(emailId);
+    // setEmail(emailId);
     setLoading(true);
     try {
-      const response = await axios.post(`${API_URL}send-otp`, { emailId });
+      const response = await axios.post(`${API_URL}send-otp`, { email });
       if (response.data.success) {
         setIsOtpSent(true);
         setMessage("Otp sent to your mail!!!");
@@ -43,7 +43,7 @@ const Register = () => {
 
   const handlGoogleApi =(value) =>{
     setEmail(value);
-    setEmailId(value)
+    // setEmailId(value)
 console.log("callback", value)
   }
 
@@ -51,7 +51,7 @@ console.log("callback", value)
     setLoading(true);
     try {
       const response = await axios.post(`${API_URL}verify-otp`, {
-        emailId,
+        email,
         otp,
       });
       if (response.data.success) {
@@ -96,7 +96,7 @@ console.log("callback", value)
             100% access. No credit card required
           </p>
         </div>
-        <h2 className="text-xl font-bold text-center mb-4 ">
+        <h2 className="text-xl font-bold text-center mb-3 ">
           {isOtpSent ? "Enter OTP" : "Verify Your Email"}
         </h2>
         {!isOtpSent ? (
@@ -109,11 +109,12 @@ console.log("callback", value)
               <Input
                 type="email"
                 className="!text-xl"
-                value={emailId}
+                value={email}
                 prefix={<CiMail className="scale-120 accent-blue-600" />}
-                onChange={(e) => setEmailId(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
+                
                 placeholder="Enter your work email"
-              />{emailId}
+              />
             </Form.Item>
             <div>
               <div className=" flex justify-items-start m-3 ml-2">
@@ -135,9 +136,9 @@ console.log("callback", value)
               <Link to="/signup">
                 <button
                   onClick={sendOtp}
-                  className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+                  className="w-full bg-blue-500 text-white py-2 rounded-md scale-110 hover:bg-blue-600"
                 >
-                  Send Email
+                  Sign up in two minutes
                 </button>
               </Link>
               {/* below code will be used after sms integration  */}
@@ -164,14 +165,10 @@ console.log("callback", value)
           </div>
         ) : (
           <div>
-            {/* <input
-              type="text"
-              className="p-2 rounded-md "
-              placeholder="Enter Otp"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-            /> */}
+           
+            <div className="p-2 mb-10 ">
             <Otp handleFullOtp={setOtp}/>
+            </div>
             <button
               onClick={verifyOtp}
               className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600"

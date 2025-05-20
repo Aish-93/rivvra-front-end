@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 
 import { CgProfile } from "react-icons/cg";
-import { TfiStatsUp } from "react-icons/tfi"
+import { TfiStatsUp } from "react-icons/tfi";
 import { GoGoal } from "react-icons/go";
 import {
   Form,
@@ -16,42 +16,56 @@ import {
 
 import axios from "axios";
 import "./Stepper.css";
+import { loginCall } from "../utils/methods/auth";
+import { setItem, setPass, getItemUserAuth } from "../utils/methods/methods";
 import { API_URL } from "../constants/constant";
 import { EmailContext } from "./context/emailContext";
 import { useNavigate } from "react-router";
 
-
-
 const { Step } = Steps;
 const { Option } = Select;
-const job = ["CEO","CTO","Developer","SalesPerson","Manger","Business Owner","Designer","Sperviser","Executive"]
-const language =["English","Hindi"];
+const job = [
+  "CEO",
+  "CTO",
+  "Developer",
+  "SalesPerson",
+  "Manger",
+  "Business Owner",
+  "Designer",
+  "Sperviser",
+  "Executive",
+];
+const language = ["English", "Hindi"];
 const Stepper = () => {
-  const navigate =useNavigate();
-  const { email,name,lastName,isLocalLogin,setIsLocalLogin,googleId,setGoogleId }= useContext(EmailContext)
+  const navigate = useNavigate();
+  const {
+    email,
+    name,
+    lastName,
+    isLocalLogin,
+    setIsLocalLogin,
+    googleId,
+    setGoogleId,
+  } = useContext(EmailContext);
   const [current, setCurrent] = useState(0);
   const [form] = Form.useForm();
-
 
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
- 
-  useEffect(()=>{
-   
-    setFormData((prev)=>({
+
+  useEffect(() => {
+    setFormData((prev) => ({
       ...prev,
-      name:name +" "+ lastName,
-      email: email,
-      googleId:googleId
-    })
-    );
-    console.log(formData,"useeffect")
-  },[email,name,lastName])
-console.log(email,name,lastName,"stepper test")
+      name: name + " " + lastName,
+      googleId: googleId,
+    }));
+    console.log(formData, "useeffect");
+  }, [email, name, lastName]);
+  console.log(email, name, lastName, "stepper test");
   const [formData, setFormData] = useState({
     emailId: email, // using context for email
-    name: name +" "+  lastName,
+    name: name + " " + lastName,
     password: "",
     country: [], // will be array as using list to select and from api fetch
     role: undefined,
@@ -62,7 +76,7 @@ console.log(email,name,lastName,"stepper test")
     phone: "",
     goals: [],
     language: undefined,
-    googleId:null
+    authProvider:'local'
   });
 
   const [selectedCountryOpt, setSelectedCountryOtp] = useState(null);
@@ -91,7 +105,7 @@ console.log(email,name,lastName,"stepper test")
           }))
           .sort((a, b) => a.label.localeCompare(b.label));
         console.log(countriesOption);
-        setSelectedCountryOtp(countriesOption)
+        setSelectedCountryOtp(countriesOption);
       })
       .catch((err) => {
         console.error(err);
@@ -103,9 +117,28 @@ console.log(email,name,lastName,"stepper test")
 
     try {
       const response = await axios.post(`${API_URL}signup`, formData);
-      if (response.status === 200) {
-        message.success("Signup successful!");
-        navigate("/login");
+      setPass(formData.password);
+      debugger
+      if (response.data.message == "SignUp Successfull") {
+        message.success("SignUp successful!");
+        // const {password} = getItemUserAuth()
+        if(response.data.data.authProvider ==='local'){
+        const resLogin = loginCall({
+          emailId: email,
+          password: formData.password,
+        });
+
+        resLogin.then((res) => {
+          if (res.message === "Login Successfull") {
+            setItem(res);
+            navigate("/");
+            if (res.url) {
+              window.location.href = res.url;
+            }
+          }
+        });
+
+      }
       }
     } catch (error) {
       console.error("API Error:", error.message);
@@ -125,23 +158,21 @@ console.log(email,name,lastName,"stepper test")
       ...prev,
       goals: checkedValues,
     }));
-
-    console.log(formData, "formdata");
   };
 
- console.log(email,"testemail")
+  console.log(email, "testemail");
   const steps = [
-   
     {
       title: "About you",
-      icon: <CgProfile  />,
+      icon: <CgProfile />,
       content: (
         <div className="max-h-[480px] overflow-y-auto custom-scroll">
-        <div className="headers"><h1 className="head">About you</h1>
-        <p>We'll use this information to tailor Rivvra to your needs.</p></div>
-        {/* <Form> */}
+          <div className="headers">
+            <h1 className="head">About you</h1>
+            <p>We'll use this information to tailor Rivvra to your needs.</p>
+          </div>
+          {/* <Form> */}
           <Form.Item
-          
             label="Your Name"
             className="text-slate-800 text-sm font-medium mb-2"
             rules={[{ required: true }]}
@@ -153,24 +184,21 @@ console.log(email,name,lastName,"stepper test")
               onChange={(e) => handleChange("name", e.target.value)}
             />
           </Form.Item>
-          { isLocalLogin && (
-          <Form.Item
-            
-            label="Password"
-            rules={[{ required: true }]}
-            className="text-slate-800 text-sm font-medium mb-2 block"
-          >
-            <Input.Password
-              value={formData.password}
-              classNames="inputback"
-              onChange={(e) => handleChange("password", e.target.value)}
-            />
-          </Form.Item>
-          )
-    }
+          {isLocalLogin && (
+            <Form.Item
+              label="Password"
+              rules={[{ required: true }]}
+              className="text-slate-800 text-sm font-medium mb-2 block"
+            >
+              <Input.Password
+                value={formData.password}
+                classNames="inputback"
+                onChange={(e) => handleChange("password", e.target.value)}
+              />
+            </Form.Item>
+          )}
           <Form.Item
             label="Mobile Number"
-           
             className="text-slate-800 text-sm font-medium mb-2 block"
             rules={[
               { required: true, message: "Mobile number is required" },
@@ -190,32 +218,24 @@ console.log(email,name,lastName,"stepper test")
             />
           </Form.Item>
           <Form.Item
-            
             label="Language"
             className="text-slate-800 text-sm font-medium mb-2 block"
             rules={[{ required: true }]}
             placeholder="Enter your language"
           >
-             <Select
+            <Select
               value={formData.language}
               onChange={(value) => handleChange("language", value)}
               placeholder="Enter your language"
-              
               popupClassName="inputback"
               className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
             >
-              {
-                language.map((item)=>(
-                  <Option value={item}>{item}</Option>
-                ))
-              }
-              
-            
+              {language.map((item) => (
+                <Option value={item}>{item}</Option>
+              ))}
             </Select>
-        
           </Form.Item>
           <Form.Item
-            
             label="Job"
             className="text-slate-800 text-sm 
             overflow-y-visible
@@ -226,32 +246,26 @@ console.log(email,name,lastName,"stepper test")
               value={formData.role}
               onChange={(value) => handleChange("role", value)}
               placeholder="Which job title describes you role best?"
-              
               popupClassName="inputback"
               className="inputback w-full text-slate-800 overflow-y-visible
               text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
             >
-              {
-                job.map((item)=>(
-                  <Option value={item}>{item}</Option>
-                ))
-              }
-            
+              {job.map((item) => (
+                <Option value={item}>{item}</Option>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item
-           
             label="Have you used CRM before?"
             className="text-slate-800 text-sm font-medium mb-2 block"
             rules={[{ required: true }]}
-           
           >
             <Select
               value={formData.crmCheck}
               className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
               onChange={(value) => handleChange("crmCheck", value)}
               popupClassName="inputback"
-               placeholder="Select a option"
+              placeholder="Select a option"
             >
               <Option value="yes">Yes</Option>
               <Option value="no">No</Option>
@@ -263,13 +277,14 @@ console.log(email,name,lastName,"stepper test")
     },
     {
       title: "Your company",
-      icon: <TfiStatsUp  />,
+      icon: <TfiStatsUp />,
       content: (
         <>
-        <div className="headers"><h1 className="head">About your company</h1>
-        <p>We'll use this information to tailor Rivvra to your needs.</p></div>
+          <div className="headers">
+            <h1 className="head">About your company</h1>
+            <p>We'll use this information to tailor Rivvra to your needs.</p>
+          </div>
           <Form.Item
-            
             label="Company Name"
             rules={[{ required: true }]}
             className="text-slate-800 text-sm font-medium mb-2 block"
@@ -281,11 +296,9 @@ console.log(email,name,lastName,"stepper test")
             />
           </Form.Item>
           <Form.Item
-            
             label="Company Size"
             rules={[{ required: true }]}
             className="text-slate-800 text-sm font-medium mb-2 block"
-
           >
             <Select
               value={formData.companySize}
@@ -300,7 +313,6 @@ console.log(email,name,lastName,"stepper test")
             </Select>
           </Form.Item>
           <Form.Item
-            
             label="Country"
             rules={[{ required: true }]}
             className="text-slate-800 text-sm font-medium mb-2 block"
@@ -310,27 +322,26 @@ console.log(email,name,lastName,"stepper test")
               placeholder="Select country"
               options={selectedCountryOpt}
               popupClassName="inputback"
-               value={formData.country}
+              value={formData.country}
               className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
-              onChange={(value) => handleChange('country',value)}
+              onChange={(value) => handleChange("country", value)}
               filterOption={(input, option) => {
-              return  option.label.toLowerCase().includes(input.toLocaleLowerCase());
-              }
-              }
+                return option.label
+                  .toLowerCase()
+                  .includes(input.toLocaleLowerCase());
+              }}
               onSearch={(value) => {
-                if (!value) handleChange('country',undefined);
+                if (!value) handleChange("country", undefined);
               }}
             />
           </Form.Item>
           <Form.Item
-            
             label="Number of People"
             rules={[{ required: true, type: "number", min: 1 }]}
             className="text-slate-800 text-sm font-medium mb-2 block"
           >
             <InputNumber
               value={formData.numberOfPeople}
-              
               className="inputback w-full text-slate-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
               onChange={(value) => handleChange("numberOfPeople", value)}
               min={1}
@@ -341,13 +352,14 @@ console.log(email,name,lastName,"stepper test")
     },
     {
       title: "Your goals",
-      icon: <GoGoal  />,
+      icon: <GoGoal />,
       content: (
         <>
-        <div className="headers"><h1 className="head">About your goals </h1>
-        <p>We'll use this information to tailor Rivvra to your needs.</p></div>
+          <div className="headers">
+            <h1 className="head">About your goals </h1>
+            <p>We'll use this information to tailor Rivvra to your needs.</p>
+          </div>
           <Form.Item
-            
             className="text-slate-800 text-sm font-medium mb-2 block"
             label="What would like to focus on during the trail?"
           >
@@ -388,8 +400,11 @@ console.log(email,name,lastName,"stepper test")
   };
   return (
     <div>
-      <Form form={form} onFinish={onFinish} layout="vertical"
-      className="border-blue-500 px-[20px] border-2 mt-[100]  my-12 rounded-2xl h-[700px] flex justify-center align-middle ml-auto mr-auto flex-col w-[600px]"
+      <Form
+        form={form}
+        onFinish={onFinish}
+        layout="vertical"
+        className="border-blue-500 px-[20px] border-2 mt-[100]  my-12 rounded-2xl h-[700px] flex justify-center align-middle ml-auto mr-auto flex-col w-[600px]"
       >
         <Steps current={current}>
           {steps.map((step, index) => (
@@ -405,7 +420,7 @@ console.log(email,name,lastName,"stepper test")
             <Button onClick={() => setCurrent(current + 1)}>Next</Button>
           )}
           {current === steps.length - 1 && (
-            <Button type="primary" htmlType="submit" >
+            <Button type="primary" htmlType="submit">
               Sign up
             </Button>
           )}

@@ -19,7 +19,7 @@ function App() {
   const [name,setName] = useState("");
   const [lastName,setLastName] = useState("");
   const [isLocalLogin,setIsLocalLogin] = useState(true);
-  const [googleId,setGoogleId] = useState(null);
+  const [googleId,setGoogleId] = useState("");
   
 
 

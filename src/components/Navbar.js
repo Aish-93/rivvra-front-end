@@ -76,11 +76,14 @@ const Navbar = () => {
           <div className="hidden md:flex space-x-4 bg-gray-200 pl-5 rounded-3xl hover:z-50 cursor-pointer">
             {isModalUser === false ? (
               <>
+              
                 <button
                   className="text-gray-700  cursor-pointer hover:text-blue-600 "
                   onClick={showModal}
                 >
+                  <Link to={"/register"} >
                   Try for free
+                  </Link>
                 </button>
 
                 {/* <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
