@@ -50,8 +50,8 @@ const SignUp = () => {
         <div className=" bg-opacity-50 flex justify-center items-center">
           {/* <Modal open={isModalOpen} closable={false} footer={null}> */}
             <div className="p-6 rounded-3xl ">
-              <h2 className="text-2xl mb-4 font-bold">Let's Connect</h2>
-              <Stepper className="m-3 p-[20px]" />
+              
+              <Stepper className="m-3 p-[20px]" connect={"Let's Connect"} />
               {/* <p className="text-sm mt-4">
                 Already have an account?
                 <p onClick={()=> navigate('/')} className="text-blue-500">

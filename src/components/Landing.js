@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import PricingPage from "./Pricing";
 import ProductCards from "./ProductCards";
 import { Link } from "react-router";
+import Loader from "./Loader";
 
 const LandingPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,6 +36,7 @@ const LandingPage = () => {
             Get Started for Free
           </button>
         </header>
+        {/* <Loader/> */}
 
         {/* Features Section */}
         <section className="py-16 max-w-6xl mx-auto text-center">

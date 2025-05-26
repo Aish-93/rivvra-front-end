@@ -20,6 +20,7 @@ function App() {
   const [lastName,setLastName] = useState("");
   const [isLocalLogin,setIsLocalLogin] = useState(true);
   const [googleId,setGoogleId] = useState("");
+  const [googleToken,setGoogleToken] = useState("");
   
 
 
@@ -27,7 +28,7 @@ function App() {
   return (
     <>
     <EmailContext.Provider value={{email,setEmail ,name,setLastName,lastName,
-      setName,isLocalLogin,setIsLocalLogin,googleId,setGoogleId}} >
+      setName,isLocalLogin,setIsLocalLogin,googleId,setGoogleId,googleToken,setGoogleToken}} >
       <Navbar />
       <div className="mt-16">
       <Routes>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { Modal, Input, Button } from "antd";
+import { DownOutlined, SolutionOutlined } from "@ant-design/icons";
+import { Modal, Input, Button, Dropdown, Space } from "antd";
 import "./landing.css";
 import SignUp from "./SignUpMod";
 import { loginCall } from "../utils/methods/auth";
@@ -18,14 +19,41 @@ const Navbar = () => {
   const [name, setName] = useState("");
   const { username } = getItemUserAuth();
   useEffect(() => {
-    
-      console.log(username,"navbar")
+    console.log(username, "navbar");
     setName(username);
     username ? setIsModalUser(true) : setIsModalUser(false);
   }, [username]);
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
-
+  const items = [
+    {
+      label: (
+        <a
+          href="https://www.antgroup.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          My Profile
+        </a>
+      ),
+      key: "0",
+    },
+    {
+      type: "divider",
+    },
+    {
+      label: (
+        <a
+          href="https://www.aliyun.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          My Database
+        </a>
+      ),
+      key: "1",
+    },
+  ];
   const logoutCase = () => {
     setIsModalUser(false);
     logoutUser();
@@ -76,14 +104,11 @@ const Navbar = () => {
           <div className="hidden md:flex space-x-4 bg-gray-200 pl-5 rounded-3xl hover:z-50 cursor-pointer">
             {isModalUser === false ? (
               <>
-              
                 <button
                   className="text-gray-700  cursor-pointer hover:text-blue-600 "
                   onClick={showModal}
                 >
-                  <Link to={"/register"} >
-                  Try for free
-                  </Link>
+                  <Link to={"/register"}>Try for free</Link>
                 </button>
 
                 {/* <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
@@ -93,23 +118,44 @@ const Navbar = () => {
                 {/* <SignUp/> */}
 
                 <Link to="/login">
-                <button
-                  // onClick={() => setIsOpen(true)}
-                  onClick={showModal}
-                  className="btnPrimary text-white px-4 py-2  cursor-pointer hover:bg-blue-600"
-                >
-                  Log In
-                </button>
+                  <button
+                    // onClick={() => setIsOpen(true)}
+                    onClick={showModal}
+                    className="btnPrimary text-white px-4 py-2  cursor-pointer hover:bg-blue-600"
+                  >
+                    Log In
+                  </button>
                 </Link>
               </>
             ) : (
               <div className="flex items-center ">
-                <div
-                  className="text-gray-700 usernameBtn mt-auto mb-auto cursor-pointer
+                <Space>
+                  {" "}
+                  <Dropdown
+                    menu={{ items }}
+                    trigger={["click"]}
+                    paddingBlock={10}
+                  >
+                    <a onClick={(e) => e.preventDefault()}>
+                      <Space>
+                        {/* Profile Icon */}
+                        <Space>
+                          <SolutionOutlined />
+                          <div
+                            className="text-gray-700 usernameBtn mt-auto mb-auto cursor-pointer
                hover:text-blue-600 overflow-hidden text-ellipsis whitespace-nowrap "
-                >{`Hi, ${name}`}</div>
+                          >{`Hi, ${name}`}</div>
+                        </Space>
+                        <Space>
+                          <DownOutlined />
+                        </Space>
+                      </Space>
+                    </a>
+                  </Dropdown>
+                </Space>
+
                 <button
-                  className="btnPrimary text-white px-4 py-2  cursor-pointer hover:bg-blue-600"
+                  className="btnPrimary text-white px-4 py-2 ml-2 cursor-pointer hover:bg-blue-600"
                   onClick={logoutCase}
                 >
                   Log Out

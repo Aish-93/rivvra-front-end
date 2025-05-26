@@ -14,10 +14,20 @@ const LoginGoogle = ({ handlGoogleApi }) => {
   const navigate = useNavigate();
   // const [userDetails,setUserDetails] = useState({})
 
-  const {setName,setLastName,setEmail,isLocalLogin,setIsLocalLogin,googleId,setGoogleId} = useContext(EmailContext)
+  const {
+    setName,
+    setLastName,
+    setEmail,
+    isLocalLogin,
+    setIsLocalLogin,
+    googleId,
+    setGoogleId,
+    googleToken,setGoogleToken
+  } = useContext(EmailContext);
   const handleSuccess = async (response) => {
     try {
       const decoded = jwt_decode(response.credential);
+    setGoogleToken(response.credential);
 
       const res = await axios.post(
         `${API_URL}google-login`,
@@ -32,35 +42,31 @@ const LoginGoogle = ({ handlGoogleApi }) => {
 
       console.log(res, "google login");
 
-     
       if (res.status === 200 && res.data.message === "Login successful") {
-        
-      // redirect to login here user is already in db 
+        // redirect to login here user is already in db
         handlGoogleApi(res.data.data.emailId);
-        let value ={data:res.data.data.name};
+        let value = { data: res.data.data.name };
 
-        setItem(value)// can add firstname and lastname also
+        setItem(value); // can add firstname and lastname also
 
         navigate("/");
         if (res.data.data.url) {
-          
           window.location.href = res.data.data.url;
         }
-        
-        // setEmail(res.data.data.emailId)
-      }else if(res.status === 200 && res.data.message === "Sign up"){
-        console.log("sign up",res);
 
-        // here we need to create account 
+        // setEmail(res.data.data.emailId)
+      } else if (res.status === 200 && res.data.message === "Sign up") {
+        console.log("sign up", res);
+
+        // here we need to create account
         handlGoogleApi(res.data.data.email);
         // setEmail(res.data.data.email)
         setLastName(res.data.data.family_name);
         setName(res.data.data.given_name);
-        setGoogleId(res.data.data.sub)
+        setGoogleId(res.data.data.sub);
         setIsLocalLogin(false);
         navigate("/signup");
       }
-
     } catch (err) {
       console.error(err.message);
     }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-
+import { ShimmerPostList, ShimmerPostDetails } from "react-shimmer-effects";
 import { CgProfile } from "react-icons/cg";
 import { TfiStatsUp } from "react-icons/tfi";
 import { GoGoal } from "react-icons/go";
@@ -21,6 +21,7 @@ import { setItem, setPass, getItemUserAuth } from "../utils/methods/methods";
 import { API_URL } from "../constants/constant";
 import { EmailContext } from "./context/emailContext";
 import { useNavigate } from "react-router";
+import Loader from "./Loader";
 
 const { Step } = Steps;
 const { Option } = Select;
@@ -36,7 +37,7 @@ const job = [
   "Executive",
 ];
 const language = ["English", "Hindi"];
-const Stepper = () => {
+const Stepper = ({connect}) => {
   const navigate = useNavigate();
   const {
     email,
@@ -46,6 +47,8 @@ const Stepper = () => {
     setIsLocalLogin,
     googleId,
     setGoogleId,
+    googleToken,
+    setGoogleToken,
   } = useContext(EmailContext);
   const [current, setCurrent] = useState(0);
   const [form] = Form.useForm();
@@ -76,7 +79,7 @@ const Stepper = () => {
     phone: "",
     goals: [],
     language: undefined,
-    authProvider:'local'
+    authProvider: googleId !== "" ? "google" : "local",
   });
 
   const [selectedCountryOpt, setSelectedCountryOtp] = useState(null);
@@ -114,34 +117,61 @@ const Stepper = () => {
 
   const onFinish = async (values) => {
     console.log("Collected Values:", values, formData);
-
+    setLoading(true);
     try {
       const response = await axios.post(`${API_URL}signup`, formData);
       setPass(formData.password);
-      debugger
+
       if (response.data.message == "SignUp Successfull") {
         message.success("SignUp successful!");
         // const {password} = getItemUserAuth()
-        if(response.data.data.authProvider ==='local'){
-        const resLogin = loginCall({
-          emailId: email,
-          password: formData.password,
-        });
-
-        resLogin.then((res) => {
-          if (res.message === "Login Successfull") {
-            setItem(res);
-            navigate("/");
-            if (res.url) {
-              window.location.href = res.url;
+        if (response.data.data.authProvider === "local") {
+          const resLogin = loginCall({
+            emailId: email,
+            password: formData.password,
+          });
+          resLogin.then((res) => {
+            if (res.message === "Login Successfull") {
+              setItem(res);
+              navigate("/");
+              if (res.url) {
+                window.location.href = res.url;
+              }
             }
-          }
-        });
+          });
+        } else if (response.data.data.authProvider !== "local") {
+          // make login via google login api
+          console.log(response, "inside stepper");
 
-      }
+          try {
+            const res = await axios.post(
+              `${API_URL}google-login`,
+              { token: googleToken },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                withCredentials: true,
+              }
+            );
+
+            let value = { data: res.data.data.name };
+
+            setItem(value); // can add firstname and lastname also
+
+            navigate("/");
+            if (res.data.data.url) {
+              window.location.href = res.data.data.url;
+            }
+            setLoading(false);
+          } catch (err) {
+            console.error(err.message);
+          }
+        }
       }
     } catch (error) {
       console.error("API Error:", error.message);
+      setLoading(false);
     }
   };
 
@@ -399,33 +429,51 @@ const Stepper = () => {
     setCurrent(current + 1);
   };
   return (
-    <div>
-      <Form
-        form={form}
-        onFinish={onFinish}
-        layout="vertical"
-        className="border-blue-500 px-[20px] border-2 mt-[100]  my-12 rounded-2xl h-[700px] flex justify-center align-middle ml-auto mr-auto flex-col w-[600px]"
-      >
-        <Steps current={current}>
-          {steps.map((step, index) => (
-            <Step key={index} title={step.title} icon={step.icon} />
-          ))}
-        </Steps>
-        <div className="my-4 min-h-80">{steps[current].content}</div>
-        <div className="flex justify-between mt-32">
-          {current > 0 && (
-            <Button onClick={() => setCurrent(current - 1)}>Previous</Button>
-          )}
-          {current < steps.length - 1 && current >= 0 && (
-            <Button onClick={() => setCurrent(current + 1)}>Next</Button>
-          )}
-          {current === steps.length - 1 && (
-            <Button type="primary" htmlType="submit">
-              Sign up
-            </Button>
-          )}
+    <div className=" w-[600px]">
+      {loading ? (
+        // <ShimmerPostDetails
+        //   className="h-[700px] w-[600px]"
+        //   card
+        //   cta
+        //   variant="EDITOR"
+        //   //  postStyle="STYLE_FOUR" col={1} row={1} width={600}
+        // />
+        <div className=" w-[600px] h-[400px] mt-[200px]" >
+        <Loader/>
         </div>
-      </Form>
+
+      ) : (
+        <div>
+          <h1 className="text-2xl mb-4 font-bold">{connect}</h1>
+        
+        <Form
+          form={form}
+          onFinish={onFinish}
+          layout="vertical"
+          className="border-blue-500 px-[20px] border-2 mt-[100]  my-12 rounded-2xl h-[700px] flex justify-center align-middle ml-auto mr-auto flex-col w-[600px]"
+        >
+          <Steps current={current}>
+            {steps.map((step, index) => (
+              <Step key={index} title={step.title} icon={step.icon} />
+            ))}
+          </Steps>
+          <div className="my-4 min-h-80">{steps[current].content}</div>
+          <div className="flex justify-between mt-32">
+            {current > 0 && (
+              <Button onClick={() => setCurrent(current - 1)}>Previous</Button>
+            )}
+            {current < steps.length - 1 && current >= 0 && (
+              <Button onClick={() => setCurrent(current + 1)}>Next</Button>
+            )}
+            {current === steps.length - 1 && (
+              <Button type="primary" htmlType="submit">
+                Sign up
+              </Button>
+            )}
+          </div>
+        </Form>
+        </div>
+      )}
     </div>
   );
 };
