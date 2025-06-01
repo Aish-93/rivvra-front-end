@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { DownOutlined, SolutionOutlined } from "@ant-design/icons";
 import { Modal, Input, Button, Dropdown, Space } from "antd";
@@ -6,9 +6,11 @@ import "./landing.css";
 import SignUp from "./SignUpMod";
 import { loginCall } from "../utils/methods/auth";
 import LoginModal from "./LoginModal";
-import { getItemUserAuth, logoutUser } from "../utils/methods/methods";
+import { getItemUserAuth, logoutUser,getUrl } from "../utils/methods/methods";
+import { EmailContext } from "./context/emailContext";
 
 const Navbar = () => {
+  const dataBaseUrl =getUrl();
   const [isOpen, setIsOpen] = useState(false);
 
   const [email, setEmail] = useState("");
@@ -24,7 +26,7 @@ const Navbar = () => {
     username ? setIsModalUser(true) : setIsModalUser(false);
   }, [username]);
   const showModal = () => setIsModalOpen(true);
-  const handleCancel = () => setIsModalOpen(false);
+  const handleCancel = () => setIsModalOpen(false); 
   const items = [
     {
       label: (
@@ -44,9 +46,12 @@ const Navbar = () => {
     {
       label: (
         <a
-          href="https://www.aliyun.com"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="#"
+          onClick={(e)=>{
+           e.preventDefault();
+
+           window.location.href= dataBaseUrl
+          }}
         >
           My Database
         </a>

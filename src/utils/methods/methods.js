@@ -5,17 +5,24 @@ const SECRET_KEY ="humotTechrivvra@#@*"
 
 
 const setItem  = (value)=> {
-console.log(value,"method")
      const encryptedName = CryptoJS.AES.encrypt(value.data,SECRET_KEY).toString();
     window.localStorage.setItem( 'username',encryptedName);
     
 
 };
 
+const setUrl = (value) =>{
 
+    window.localStorage.setItem("dataBaseUrl",value)
+
+}
 const setPass =(value) =>{
     const encryptPassword = CryptoJS.AES.encrypt(value,SECRET_KEY).toString();
     window.localStorage.setItem( 'password',encryptPassword)
+}
+
+const getUrl =() =>{
+    return window.localStorage.getItem("dataBaseUrl")
 }
 const getItemUserAuth = () =>{
 
@@ -40,7 +47,7 @@ const logoutUser =() =>{
 }
 
 
-export {setItem ,getItemUserAuth,logoutUser,setPass};
+export {setItem ,getItemUserAuth,logoutUser,setPass,setUrl,getUrl};
 
 
 

@@ -17,7 +17,7 @@ import {
 import axios from "axios";
 import "./Stepper.css";
 import { loginCall } from "../utils/methods/auth";
-import { setItem, setPass, getItemUserAuth } from "../utils/methods/methods";
+import { setItem, setPass, getItemUserAuth,setUrl } from "../utils/methods/methods";
 import { API_URL } from "../constants/constant";
 import { EmailContext } from "./context/emailContext";
 import { useNavigate } from "react-router";
@@ -49,6 +49,7 @@ const Stepper = ({connect}) => {
     setGoogleId,
     googleToken,
     setGoogleToken,
+    setDataBaseUrl
   } = useContext(EmailContext);
   const [current, setCurrent] = useState(0);
   const [form] = Form.useForm();
@@ -135,6 +136,7 @@ const Stepper = ({connect}) => {
               setItem(res);
               navigate("/");
               if (res.url) {
+                setUrl(res.url)
                 window.location.href = res.url;
               }
             }
@@ -161,6 +163,7 @@ const Stepper = ({connect}) => {
 
             navigate("/");
             if (res.data.data.url) {
+              setUrl(res.data.data.url)
               window.location.href = res.data.data.url;
             }
             setLoading(false);

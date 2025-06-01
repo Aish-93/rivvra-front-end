@@ -6,9 +6,11 @@ import { Link, useNavigate } from "react-router";
 import { EmailContext } from "./context/emailContext";
 import LoginGoogle from "./LoginGoogle";
 import Otp from "./Otp";
+import { API_URL } from "../constants/constant";
+import axios from "axios";
 
 const Register = () => {
-  
+  const navigate = useNavigate();
   const { setEmail,setName,setLastName,email } = useContext(EmailContext);
 
   const [otp, setOtp] = useState("");
@@ -28,8 +30,9 @@ const Register = () => {
     // setEmail(emailId);
     setLoading(true);
     try {
-      const response = await axios.post(`${API_URL}send-otp`, { email });
-      if (response.data.success) {
+      const response = await axios.post(`${API_URL}send-otp`, { email:email });
+      console.log(response,"test mic check")
+      if (response.status === 200) {
         setIsOtpSent(true);
         setMessage("Otp sent to your mail!!!");
       } else {
@@ -54,11 +57,11 @@ console.log("callback", value)
         email,
         otp,
       });
-      if (response.data.success) {
+      if (response.status===200) {
         setMessage("OTP Verified! Redirecting...");
-        setEmail(emailId); // adding emailid to context to signup page
-        setCurrent(current + 1);
-        // Redirect user to next step or dashboard
+        setEmail(email); // adding emailid to context to signup page
+        navigate("/signup")
+        
       } else {
         setMessage("Invalid OTP. Try again.");
       }
@@ -133,25 +136,25 @@ console.log("callback", value)
                   }
                 </div>
               </div>
-              <Link to="/signup">
+              {/* <Link to="/signup">
                 <button
                   onClick={sendOtp}
                   className="w-full bg-blue-500 text-white py-2 rounded-md scale-110 hover:bg-blue-600"
                 >
                   Sign up in two minutes
                 </button>
-              </Link>
+              </Link> */}
               {/* below code will be used after sms integration  */}
-              {/* <button
+              <button
                     onClick={sendOtp}
-                    className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
-                    disabled={loading}
+                    className="w-full bg-blue-500 cursor-pointer text-white py-2 rounded-md hover:bg-blue-600"
+                    // disabled={!loading}
                   >
-                    {loading ? "Sending..." : "Sent Otp"}
-                  </button> */}
+                    {loading ? "Sending..." : "Send Otp"}
+                  </button>
               <div className="flex flex-row py-4">
                 <p>Already have an account ? </p>
-                <Link to="/login" className="text-blue-950 font-boldbold">
+                <Link to="/login" className="text-blue-950 cursor-pointer font-boldbold">
                   {" "}
                   Log in
                 </Link>
@@ -171,13 +174,11 @@ console.log("callback", value)
             </div>
             <button
               onClick={verifyOtp}
-              className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
+              className="w-full bg-green-500 text-white cursor-pointer py-2 rounded-md hover:bg-green-600"
               disabled={loading}
             >
-              <Link to="/signup">
                 {" "}
                 {loading ? "Verifying..." : "Verify Otp"}
-              </Link>
             </button>
           </div>
         )}

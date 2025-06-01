@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { Modal, Input, Button } from "antd";
 import { Link } from "react-router";
@@ -7,9 +7,11 @@ import { IoIosMail,IoMdLock  } from "react-icons/io";
 
 
 import { loginCall } from "../utils/methods/auth";
-import { setItem, getItemUserAuth } from "../utils/methods/methods";
+import { setItem, getItemUserAuth ,setUrl} from "../utils/methods/methods";
+import { EmailContext } from "./context/emailContext";
 
 const LoginModal = () => {
+  const {setDataBaseUrl} = useContext(EmailContext)
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => setIsModalOpen(true);
@@ -34,6 +36,7 @@ const LoginModal = () => {
         
         setIsModalOpen(false);
         if (res.redirectUrl) {
+           setUrl(data.redirectUrl)
           window.location.href = data.redirectUrl;
         }
       }

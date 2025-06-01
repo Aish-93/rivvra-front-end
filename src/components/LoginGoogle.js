@@ -5,7 +5,7 @@ import axios from "axios";
 import { API_URL } from "../constants/constant";
 import { EmailContext } from "./context/emailContext";
 import { useNavigate } from "react-router";
-import { setItem } from "../utils/methods/methods";
+import { setItem,setUrl } from "../utils/methods/methods";
 
 const clientId =
   "403680778141-vc53o3fr7pumkgv1hhmnt16lcf12ao4i.apps.googleusercontent.com"; // Replace with your actual client ID
@@ -51,6 +51,7 @@ const LoginGoogle = ({ handlGoogleApi }) => {
 
         navigate("/");
         if (res.data.data.url) {
+          setUrl(res.data.data.url);
           window.location.href = res.data.data.url;
         }
 

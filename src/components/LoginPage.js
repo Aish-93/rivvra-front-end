@@ -6,11 +6,11 @@ import { Link, useNavigate } from "react-router";
 import { EmailContext } from "./context/emailContext";
 import { loginCall } from "../utils/methods/auth";
 import { ClipLoader } from "react-spinners";
-import { setItem, getItemUserAuth, setPass } from "../utils/methods/methods";
+import { setItem, getItemUserAuth, setPass ,setUrl} from "../utils/methods/methods";
 import Loader from "./Loader";
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { setEmail,email } = useContext(EmailContext);
+  const { setEmail,email,setDataBaseUrl } = useContext(EmailContext);
 
   const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
@@ -41,7 +41,7 @@ const LoginPage = () => {
         
         navigate("/");
         if (res.url) {
-          
+           setUrl(res.url)
           window.location.href = res.url;
         }
       }else{
