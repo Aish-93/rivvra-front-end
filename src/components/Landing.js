@@ -9,7 +9,7 @@ import PricingPage from "./Pricing";
 import ProductCards from "./ProductCards";
 import { Link } from "react-router";
 import Loader from "./Loader";
-import LandingContainer from "./landingContainer";
+import LandingContainer from "./LandingContainer";
 import LandingTabs from "./LandingTabs";
 
 const LandingPage = () => {
