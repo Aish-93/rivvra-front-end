@@ -136,22 +136,22 @@ console.log("callback", value)
                   }
                 </div>
               </div>
-              {/* <Link to="/signup">
+              <Link to="/signup">
                 <button
                   onClick={sendOtp}
                   className="w-full bg-blue-500 text-white py-2 rounded-md scale-110 hover:bg-blue-600"
                 >
                   Sign up in two minutes
                 </button>
-              </Link> */}
+              </Link>
               {/* below code will be used after sms integration  */}
-              <button
+              {/* <button
                     onClick={sendOtp}
                     className="w-full bg-blue-500 cursor-pointer text-white py-2 rounded-md hover:bg-blue-600"
                     // disabled={!loading}
                   >
                     {loading ? "Sending..." : "Send Otp"}
-                  </button>
+                  </button> */}
               <div className="flex flex-row py-4">
                 <p>Already have an account ? </p>
                 <Link to="/login" className="text-blue-950 cursor-pointer font-boldbold">

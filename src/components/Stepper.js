@@ -127,6 +127,7 @@ const Stepper = ({connect}) => {
         message.success("SignUp successful!");
         // const {password} = getItemUserAuth()
         if (response.data.data.authProvider === "local") {
+          
           const resLogin = loginCall({
             emailId: email,
             password: formData.password,

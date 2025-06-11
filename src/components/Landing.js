@@ -9,6 +9,8 @@ import PricingPage from "./Pricing";
 import ProductCards from "./ProductCards";
 import { Link } from "react-router";
 import Loader from "./Loader";
+import LandingContainer from "./landingContainer";
+import LandingTabs from "./LandingTabs";
 
 const LandingPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,6 +74,12 @@ const LandingPage = () => {
             </blockquote>
             <p className="mt-2 font-semibold">- Jane Doe, Sales Manager</p>
           </div>
+        </section>
+        <section>
+          <LandingContainer/>
+        </section>
+        <section>
+          <LandingTabs/>
         </section>
 
         {/* Call to Action Section */}
