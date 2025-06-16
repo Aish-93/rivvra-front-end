@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ShimmerPostList, ShimmerPostDetails } from "react-shimmer-effects";
 import { CgProfile } from "react-icons/cg";
 import { TfiStatsUp } from "react-icons/tfi";
 import { GoGoal } from "react-icons/go";
