@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Modal } from "antd";
 import "../App.css";
 import Stepper from "./Stepper";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [isModalOpen, setIsModalOpen] = useState(true);

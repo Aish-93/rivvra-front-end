@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { DownOutlined, SolutionOutlined } from "@ant-design/icons";
 import { Modal, Input, Button, Dropdown, Space } from "antd";
 import "./landing.css";
@@ -21,7 +21,7 @@ const Navbar = () => {
   const [name, setName] = useState("");
   const { username } = getItemUserAuth();
   useEffect(() => {
-    console.log(username, "navbar");
+   
     setName(username);
     username ? setIsModalUser(true) : setIsModalUser(false);
   }, [username]);
@@ -87,15 +87,15 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6">
-            <Link to="/">
-              <a href="#" className="text-gray-700 hover:text-blue-600">
+            <>
+              <Link to="/" className="text-gray-700 hover:text-blue-600">
                 Features
-              </a>
-            </Link>
-            <Link to="/price">
-              <a href="#" className="text-gray-700 hover:text-blue-600">
+              </Link>
+            </>
+            
+              <Link to="/price"className="text-gray-700 hover:text-blue-600">
                 Pricing
-              </a>
+              
             </Link>
             <a href="#" className="text-gray-700 hover:text-blue-600">
               Resources

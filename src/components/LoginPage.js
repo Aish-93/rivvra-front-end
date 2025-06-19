@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { IoIosMail, IoMdLock } from "react-icons/io";
 import LoginGoogle from "./LoginGoogle";
 import { Button } from "antd";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { EmailContext } from "./context/emailContext";
 import { loginCall } from "../utils/methods/auth";
 import { ClipLoader } from "react-spinners";
@@ -25,7 +25,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     setIsLoading(true);
-    console.log(emailId, password, "test");
+    
 
     const response = loginCall({
       emailId: emailId,

@@ -19,7 +19,7 @@ import { loginCall } from "../utils/methods/auth";
 import { setItem, setPass, getItemUserAuth,setUrl } from "../utils/methods/methods";
 import { API_URL } from "../constants/constant";
 import { EmailContext } from "./context/emailContext";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 
 const { Step } = Steps;
@@ -63,9 +63,8 @@ const Stepper = ({connect}) => {
       name: name + " " + lastName,
       googleId: googleId,
     }));
-    console.log(formData, "useeffect");
   }, [email, name, lastName]);
-  console.log(email, name, lastName, "stepper test");
+  
   const [formData, setFormData] = useState({
     emailId: email, // using context for email
     name: name + " " + lastName,
@@ -107,7 +106,7 @@ const Stepper = ({connect}) => {
             value: item.cca2,
           }))
           .sort((a, b) => a.label.localeCompare(b.label));
-        console.log(countriesOption);
+        
         setSelectedCountryOtp(countriesOption);
       })
       .catch((err) => {
@@ -116,7 +115,7 @@ const Stepper = ({connect}) => {
   }, []);
 
   const onFinish = async (values) => {
-    console.log("Collected Values:", values, formData);
+    
     setLoading(true);
     try {
       const response = await axios.post(`${API_URL}signup`, formData);
@@ -143,7 +142,7 @@ const Stepper = ({connect}) => {
           });
         } else if (response.data.data.authProvider !== "local") {
           // make login via google login api
-          console.log(response, "inside stepper");
+         
 
           try {
             const res = await axios.post(
@@ -186,14 +185,14 @@ const Stepper = ({connect}) => {
   };
 
   const handleCheckboxChange = (checkedValues) => {
-    console.log(checkedValues, "check");
+    
     setFormData((prev) => ({
       ...prev,
       goals: checkedValues,
     }));
   };
 
-  console.log(email, "testemail");
+  
   const steps = [
     {
       title: "About you",

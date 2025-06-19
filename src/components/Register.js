@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Form, Input, Button, Steps, Select, Checkbox, message } from "antd";
 import { TiTick } from "react-icons/ti";
 import { CiMail } from "react-icons/ci";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { EmailContext } from "./context/emailContext";
 import LoginGoogle from "./LoginGoogle";
 import Otp from "./Otp";
@@ -19,14 +19,9 @@ const Register = () => {
   // const [emailId, setEmailId] = useState("");
   const [message, setMessage] = useState("");
 
-  // useEffect(()=>{
-
-  //    setEmailId(email);
-    
-  // },[emailId])
   
   const sendOtp = async () => {
-    console.log("sendOtp clicked");
+   
     // setEmail(emailId);
     setLoading(true);
     try {

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import axios from "axios";
+
 import { Modal, Input, Button } from "antd";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import LoginGoogle from "./LoginGoogle";
 import { IoIosMail,IoMdLock  } from "react-icons/io";
 
@@ -20,9 +20,8 @@ const LoginModal = () => {
   const [password, setPassword] = useState("");
 
   const onLoginBtnClick = async (e) => {
-    e.preventDefault();
+    e.preentDefault();
 
-    console.log(email, password, "test");
 
     const response = loginCall({
       emailId: email,
@@ -30,7 +29,7 @@ const LoginModal = () => {
     });
 
     response.then((res) => {
-      console.log(res);
+      
 
       if (res.message === "success") {
         
@@ -42,30 +41,13 @@ const LoginModal = () => {
       }
     });
 
-    //     try{
-    //        const response = await axios.post(`${API_URL}login`,{
-    //         emailId:email,
-    //         password:password
-    //        });
-
-    //       console.log(response,"response");
-
-    //       if(response.status === 200){
-
-    //       }
-    //     }catch(err){
-    //       console.warn(err.message)
-    // // antd noti
-    //       setIsModalOpen(false)
-    //     }
-
-    console.log(getItemUserAuth());
+ 
   };
 
   const handleAccount = () => {
     setIsModalOpen(false);
   };
-  console.log(window.location,"test")
+  
   return (
     <div className="flex  justify-center items-center">
       <Link to="/login">

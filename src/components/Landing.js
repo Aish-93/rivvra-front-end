@@ -7,7 +7,7 @@ import FormComponent from "./FormComponent";
 import Navbar from "./Navbar";
 import PricingPage from "./Pricing";
 import ProductCards from "./ProductCards";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import Loader from "./Loader";
 import LandingContainer from "./LandingContainer";
 import LandingTabs from "./LandingTabs";

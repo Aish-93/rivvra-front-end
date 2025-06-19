@@ -4,7 +4,7 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { API_URL } from "../constants/constant";
 import { EmailContext } from "./context/emailContext";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { setItem,setUrl } from "../utils/methods/methods";
 
 const clientId =
@@ -40,7 +40,7 @@ const LoginGoogle = ({ handlGoogleApi }) => {
         }
       );
 
-      console.log(res, "google login");
+      
 
       if (res.status === 200 && res.data.message === "Login successful") {
         // redirect to login here user is already in db
@@ -57,7 +57,7 @@ const LoginGoogle = ({ handlGoogleApi }) => {
 
         // setEmail(res.data.data.emailId)
       } else if (res.status === 200 && res.data.message === "Sign up") {
-        console.log("sign up", res);
+        
 
         // here we need to create account
         handlGoogleApi(res.data.data.email);
@@ -69,7 +69,7 @@ const LoginGoogle = ({ handlGoogleApi }) => {
         navigate("/signup");
       }
     } catch (err) {
-      console.error(err.message);
+      
     }
 
     // Send token to backend for authentication

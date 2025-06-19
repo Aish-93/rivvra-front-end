@@ -27,17 +27,16 @@ const FormComponent = () => {
   const [form] = Form.useForm();
 
   const handleStatus = (e) => {
-    console.log(e.target);
-
+    
     form
     .validateFields()
     .then((values) => {
-      console.log("Form Values:", values);
+     
       // setIsModalOpen(false); // Close modal on successful submit
       form.resetFields(); // Reset form fields after submission
     })
     .catch((info) => {
-      console.log("Validation Failed:", info);
+      console.error("Validation Failed:", info);
     });
     if (true) {
       setStatus("success");
