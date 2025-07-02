@@ -9,7 +9,7 @@ import Footer from "./components/Footer";
 import SignUp from "./components/SignUpMod";
 import Faq from "./components/Faq";
 import LoginPage from "./components/LoginPage";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 import Register from "./components/Register";
 import { EmailContext } from "./components/context/emailContext";
 
