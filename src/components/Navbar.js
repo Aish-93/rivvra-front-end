@@ -86,7 +86,7 @@ const Navbar = () => {
           <div className="text-xl font-bold text-gray-900">Rivvra</div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-6">
+          <div className=" md:flex space-x-6">
             <>
               <Link to="/" className="text-gray-700 hover:text-blue-600">
                 Features
@@ -106,7 +106,7 @@ const Navbar = () => {
           </div>
 
           {/* Right-side Buttons */}
-          <div className="hidden md:flex space-x-4 bg-gray-200 pl-5 rounded-3xl hover:z-50 cursor-pointer">
+          <div className=" md:flex space-x-4 bg-gray-200 pl-5 rounded-3xl hover:z-50 cursor-pointer">
             {isModalUser === false ? (
               <>
                 <button
