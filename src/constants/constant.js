@@ -1,5 +1,6 @@
-export const API_URL = "http://localhost:3008/"
+// export const API_URL = "http://localhost:3008/"
 
+export const API_URL = "/api"
 export  const landingdataTabs =[
 
     {   id:1,
